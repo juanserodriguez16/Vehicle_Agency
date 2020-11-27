@@ -28,6 +28,7 @@ public class Menu {
 		Seller s9 = new Seller("Claudia", "Medina", 45611178, 0);
 		Seller s10 = new Seller("Felipe", "Eraso", 656565, 0);
 		
+		
 		enterprice.addSeller(s1);
 		enterprice.addSeller(s2);
 		enterprice.addSeller(s3);
@@ -43,19 +44,19 @@ public class Menu {
 		
 		
 		GasolineCar gc1 = new GasolineCar(0, 80000000, "Ferrari"
-				, 2013, 2000, 0, false, "GHY-289", "SEDAN", 2, false, "EXTRA", 75);
+				, 2013, 2000, 0, true, "GHY-289", "SEDAN", 2, false, "EXTRA", 75);
 		
 		ElectricCar ec1 = new ElectricCar(0, 65000000, "Audi"
 				, 2020, 1600, 0, false, "CPY-256", "SEDAN", 4, true, "RAPIDO", 50);
 		
 		GasolineCar gc3 = new GasolineCar(0, 90000000, "Porsche"
-				, 2014, 2200, 7000, true, "TYU-765", "SEDAN", 4, true, "CORRIENTE", 50);
+				, 2013, 2200, 7000, true, "TYU-765", "SEDAN", 4, true, "CORRIENTE", 50);
 		
 		GasolineCar gc5 = new GasolineCar(0, 30000000, "Chevrolet"
 				, 2020, 1600, 0, false, "ADF-890", "SEDAN", 4, true, "DIESEL", 50);
 		
 		GasolineCar gc4 = new GasolineCar(0, 30000000, "Mazda"
-				, 2019, 2000, 20000, true, "BNM-543", "CAMIONETA", 4, true, "DIESEL", 80);
+				, 2013, 2000, 20000, true, "BNM-543", "CAMIONETA", 4, true, "DIESEL", 80);
 		
 		ElectricCar ec2 = new ElectricCar(0, 60000000, "Lamborghini"
 				, 2018, 2200, 50000, true, "MHQ-064", "CAMIONETA", 4, false, "RAPIDO", 50);
@@ -64,7 +65,7 @@ public class Menu {
 				, 2018, 2200, 80000, true, "CMM-111", "CAMIONETA", 4, false, "RAPIDO", 50);
 		
 		ElectricCar ec4 = new ElectricCar(0, 95000000, "Kia"
-				, 2012, 2200, 0, false, "KIA-256", "SEDAN", 4, false, "RAPIDO", 50);
+				, 2012, 2200, 0, true, "KIA-256", "SEDAN", 4, false, "RAPIDO", 50);
 		
 		Motocycle m1 = new Motocycle(0, 5000000, "AKT"
 				, 2013, 2000, 0, false, "CMM-28D", "ESTANDAR", 8);
@@ -75,8 +76,8 @@ public class Menu {
 				, 2012, 2200, 0, true, "KTM-006", "SEDAN", 2, true, "RAPIDO", 50, "DIESEL", 30);
 		HibritCar h2 = new HibritCar(0, 200000000, "Tezla"
 				, 2011, 1600, 0, false, "PLM-016", "SEDAN", 2, true, "RAPIDO", 50, "EXTRA", 80);
-	
-
+		SOAT soat1 = new SOAT(450000, 2020, 20000000);
+		h2.addSOAT(soat1);
 		
 	
 		enterprice.addVehicle(ec4);
@@ -146,13 +147,11 @@ public class Menu {
 					 	 if (ix > 4) {ix = 4;}
 					
 						if ( enterprice.getVehicles().get(i).getUsed() && !enterprice.getVehicles().get(i).getSoldStatus()) {
-							for(int j = 0; i < enterprice.getParkingSpace().length ;j++) {
+							for(int j = 0; j < enterprice.getParkingSpace().length ;j++) {
 							if (enterprice.getParkingSpace()[j][ix] == null) {
 								enterprice.getParkingSpace()[j][ix] = (Car) enterprice.getVehicles().get(i);
 								break;
-							}
-							else
-								if(enterprice.getParkingSpace()[j][ix].equals((Car) enterprice.getVehicles().get(i))) {
+							}else if(enterprice.getParkingSpace()[j][ix].equals((Car) enterprice.getVehicles().get(i))) {
 									break;	
 								}
 										
@@ -279,7 +278,7 @@ public class Menu {
 		* @param ix the selection variable of the index. ix != null.
 		*/
 		public void ShowClients(int ix ) {
-		System.out.println(enterprice.infoClients(ix));
+		System.out.println(enterprice.infoClients(ix-1));
 		}
 		/**
 		* Show sellers and his information <br>

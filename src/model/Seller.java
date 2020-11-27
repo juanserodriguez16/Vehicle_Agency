@@ -153,7 +153,7 @@ public String infoSeller() {
 * @return clients.get(index). 
 */	
 public Client getClient(int index) {
-	return sellerClients.get(index);	
+	return sellerClients.get(index - 1);	
 }
 
 /** 

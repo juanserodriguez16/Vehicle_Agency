@@ -50,7 +50,7 @@ public void addSeller(Seller seller) {
 * @return sellers.get(index). 
 */	
 public Seller getSeller(int index) {
-	return sellers.get(index);	
+	return sellers.get(index - 1);	
 }
 /** 
 * Add an item to a list<br> 
@@ -68,7 +68,7 @@ public void addVehicle(Vehicle vehicle) {
 * @return vehicles.get(index). 
 */	
 public Vehicle getVehicle(int index) {
-	return vehicles.get(index);	
+	return vehicles.get(index - 1);	
 }
 
 /** 
@@ -181,7 +181,7 @@ public String infoVehicles() {
 	  String info = "Nuestro catalogo de Autos es:\n";
 		for (int i = 0; i < vehicles.size() ; i++) {
 				if (!vehicles.get(i).getSoldStatus()) {
-				info += "- "+i + ") " +  vehicles.get(i).basicInfo()+"\n";
+				info += "- "+(i+1) + ") " +  vehicles.get(i).basicInfo()+"\n";
 				}			
 		}
 return info;
@@ -201,7 +201,7 @@ public String infoClients() {
 	for (int i = 0; i < sellers.size() ; i++) {
 		vClient = sellers.get(i).getClients();
 		for (int j = 0; j < vClient.size() ; j++) {
-		info += "- "+j + ") " +  vClient.get(j).infoClient() +  "\nVendedor encargado: "
+		info += "- "+(j+1)  + ") " +  vClient.get(j).infoClient() +  "\nVendedor encargado: "
 				+ sellers.get(i).getName()+"\n";
 		}
 	
@@ -223,7 +223,7 @@ public String infoClients(int ixseller) {
 	String info = "Los clientes ingresados son:\n";
 		vClient = sellers.get(ixseller).getClients();
 		for (int j = 0; j < vClient.size() ; j++) {
-		info += "- "+j + ") " +  vClient.get(j).infoClient() +  "\nVendedor encargado: "
+		info += "- "+(j+1)  + ") " +  vClient.get(j).infoClient() +  "\nVendedor encargado: "
 				+ sellers.get(ixseller).getName()+"\n";
 		}
 	return info;
@@ -238,7 +238,7 @@ public String infoClients(int ixseller) {
 public String infoSellers() {
 	String info = "Los asesores de la empresa son:\n";
 	for (int i = 0; i < sellers.size() ; i++) {
-		info += "===================\n "+i + ") " + sellers.get(i).infoSeller()+"\n";
+		info += "===================\n "+(i+1) + ") " + sellers.get(i).infoSeller()+"\n";
 
 }
 return info;
@@ -252,7 +252,7 @@ return info;
 public String ShowNameSellers() {
 	String info = "Los asesores de la empresa son:\n";
 	for (int i = 0; i < sellers.size() ; i++) {
-		info += "- "+i + ") " +  sellers.get(i).getName()+"\n";
+		info += "- "+(i+1)  + ") " +  sellers.get(i).getName()+"\n";
 	
 }
 return info;
@@ -268,7 +268,7 @@ public String getInfoParking() {
 	for(int i = 0; i < parkingSpace.length; i++) {
 		for(int x = 0; x < parkingSpace[i].length; x++){
 			if(parkingSpace[i][x] != null) {
-				info += "\n\nVehiculo en la posicion:" + i + "." + x + "\n" + "===============================" + parkingSpace[i][x].basicInfo();
+				info += "\n\nVehiculo en la posicion:" + (i)  + "." + (x)  + "\n" + "===============================" + parkingSpace[i][x].basicInfo();
 			}
 		}
 	}
@@ -287,28 +287,28 @@ public String getInfoTypeVehicle(int a) {
 	if (a == 1){
 		for (int i = 0; i < vehicles.size() ; i++) {
 			if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof GasolineCar) {
-			info += "======================\n"+i + ") " +  vehicles.get(i).basicInfo()+"\n";
+			info += "======================\n"+(i+1)  + ") " +  vehicles.get(i).basicInfo()+"\n";
 			}
 	}
 		
 	}else 	if (a == 2){
 		for (int i = 0; i < vehicles.size() ; i++) {
 			if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof ElectricCar) {
-				info += "======================\n"+i + ") " +  vehicles.get(i).basicInfo()+"\n";
+				info += "======================\n"+(i+1)  + ") " +  vehicles.get(i).basicInfo()+"\n";
 			}		
 	}
 		
 	}else 	if (a == 3){
 		for (int i = 0; i < vehicles.size() ; i++) {
 			if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof HibritCar) {
-				info += "======================\n"+i + ") " +  vehicles.get(i).basicInfo()+"\n";
+				info += "======================\n"+(i+1)  + ") " +  vehicles.get(i).basicInfo()+"\n";
 			}		
 	}
 		
 	} else 	if (a == 4){
 		for (int i = 0; i < vehicles.size() ; i++) {
 			if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof Motocycle) {
-				info += "======================\n"+i + ") " +  vehicles.get(i).basicInfo()+"\n";
+				info += "======================\n"+(i+1)  + ") " +  vehicles.get(i).basicInfo()+"\n";
 			}		
 	}
 		
@@ -330,21 +330,23 @@ public String infoIfUsed(int index) {
 	switch (index){
 	case 1:for (int i = 0; i < vehicles.size() ; i++) {
 		if (!vehicles.get(i).getSoldStatus() && !vehicles.get(i).getUsed()){
-			info += "======================\n"+i + ") " +  vehicles.get(i).basicInfo()+"\n";
-		}		
+			info += "======================\n"+(i+1)  + ") " +  vehicles.get(i).basicInfo()+"\n";
+			
+		}	
+		
 }
 		
 		break;
 	case 2:for (int i = 0; i < vehicles.size() ; i++) {
 		if (!vehicles.get(i).getSoldStatus() && vehicles.get(i).getUsed()){
-		info += "========================\n"+i + ") " +  vehicles.get(i).basicInfo()+"\n";
+		info += "========================\n"+(i+1)  + ") " +  vehicles.get(i).basicInfo()+"\n";
 		}			
 }
 		
 		break;
 	case 3:for (int i = 0; i < vehicles.size() ; i++) {
 		if (!vehicles.get(i).getSoldStatus()){
-			info += "======================\n"+i + ") " +  vehicles.get(i).basicInfo()+"\n";
+			info += "======================\n"+(i+1)  + ") " +  vehicles.get(i).basicInfo()+"\n";
 		}			
 }
 		
@@ -352,7 +354,7 @@ public String infoIfUsed(int index) {
 	case 4: info = "";
 		break;
 	}
-	return info;
+	return info;	
 	
 }
 

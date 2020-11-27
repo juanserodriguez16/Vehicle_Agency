@@ -222,9 +222,7 @@ public abstract class Vehicle {
 		  myFormatter = new DecimalFormat("###,###.###");
 		String basicInfo ="\n" + "Marca: " +getMark() +  "\nModelo: " + getModel() + "\nCilindraje: "
 	+ getCilindraje() + "\nkilometraje: " + getMileaje()+ "\nPlaca: " + getPlaca()
-	+ "\nUsado: " + getUsed()+ "\nPrecio Base: " + myFormatter.format(getBasePrice())+ "\nPrecio Total: " + myFormatter.format(getTotalPrice()) +
-	"\nLos soats del vehiculos son" + infoSOATS() + 
-	"\nLos servicios tecnicomecanicos del vehiculos son" + infoMC();;
+	+ "\nUsado: " + getUsed()+ "\nPrecio Base: " + myFormatter.format(getBasePrice())+ "\nPrecio Total: " + myFormatter.format(getTotalPrice()) + "\n" + infoSOATS() + "\n" + infoMC();;
 		  return basicInfo;
 	}
 	/** 
@@ -235,11 +233,16 @@ public abstract class Vehicle {
 	*/
 	public String infoSOATS() {
 		  String info = "Los SOATS de este vehiculo son:\n";
+		  if(!soats.isEmpty()) {
+			  
+		  
 			for (int i = 0; i < soats.size() ; i++) {
 					
-					info += "- "+i + ") " +  soats.get(i).Info()+"\n";
+					info += "- "+(i+1)  + ") " +  soats.get(i).Info();
 								
 			}
+		  }else 
+			  info+="El vehiculo no tiene este documento\n";
 	return info;
 
 
@@ -251,12 +254,15 @@ public abstract class Vehicle {
 	* @return basicInfo. 
 	*/
 	public String infoMC() {
-		  String info = "Los servicios de revision tecnicomecanica de este vehiculo son:\n";
-			for (int i = 0; i < soats.size() ; i++) {
+		 String info = "Los servicios de revision tecnicomecanica de este vehiculo son:\n";
+		if(!mechanicServices.isEmpty()) {
+		 
+			for (int i = 0; i < mechanicServices.size() ; i++) {
 					
-					info += "- "+i + ") " +  mechanicServices.get(i).Info()+"\n";
+					info += "- "+(i+1) + ") " +  mechanicServices.get(i).Info();
 								
 			}
+		}else info += "El vehiculo no tiene este documento";
 	return info;
 
 
