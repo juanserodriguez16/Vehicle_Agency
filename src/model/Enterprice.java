@@ -1,5 +1,11 @@
 package model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 public class Enterprice {
@@ -13,6 +19,7 @@ private Car[][] parkingSpace;
 private ArrayList<Vehicle> vehicles;
 private ArrayList<Seller> sellers;
 
+
 /** 
 * will transform the parameters into a variables of this class and create type of object <br> 
 * <b>pre: </b> the parameters cannot be null<br> 
@@ -21,8 +28,10 @@ private ArrayList<Seller> sellers;
 * @param nit the selection variable of the nit. nit!=null.
 * @param totalProfit the selection variable of the total Profit. totalProfit !=null.
 * @param salesNumber the selection variable of the sales Number. salesNumber != null. 
+ * @throws IOException 
+ * @throws ClassNotFoundException 
 */
-public Enterprice (String name, int nit, float totalProfit, float salesNumber) {
+public Enterprice (String name, int nit, float totalProfit, float salesNumber) throws ClassNotFoundException, IOException {
 	this.name = name;
 	this.nit = nit;
 	this.totalProfit = totalProfit;
@@ -30,6 +39,7 @@ public Enterprice (String name, int nit, float totalProfit, float salesNumber) {
 	vehicles = new ArrayList<Vehicle>();
 	sellers = new ArrayList<Seller>();
 	parkingSpace = new Car [COLS][ROWS];
+	load();
 }
 public Car[][] getParkingSpace() {
 	return parkingSpace;
@@ -39,9 +49,11 @@ public Car[][] getParkingSpace() {
 * <b>pre: </b>The required parameter cannot be null <br> 
 * <b>post: </b>transform the parameter to a variable of this class and add to a list. 
 * @param seller the selection object of the seller. seller != null. 
+ * @throws IOException 
 */
-public void addSeller(Seller seller) {
+public void addSeller(Seller seller) throws IOException {
 	sellers.add(seller);
+	saveSellers();
 }
 /** 
 * get the object that you selected<br> 
@@ -57,9 +69,11 @@ public Seller getSeller(int index) {
 * <b>pre: </b>The required parameter cannot be null <br> 
 * <b>post: </b>transform the parameter to a variable of this class and add to a list. 
 * @param vehicle the selection object of the vehicle. vehicle != null. 
+ * @throws IOException 
 */
-public void addVehicle(Vehicle vehicle) {
+public void addVehicle(Vehicle vehicle) throws IOException {
 	vehicles.add(vehicle);
+	saveVehicles();
 }
 /** 
 * get the object that you selected<br> 
@@ -181,7 +195,7 @@ public String infoVehicles() {
 	  String info = "Nuestro catalogo de Autos es:\n";
 		for (int i = 0; i < vehicles.size() ; i++) {
 				if (!vehicles.get(i).getSoldStatus()) {
-				info += "- "+(i+1) + ") " +  vehicles.get(i).basicInfo()+"\n";
+				info += "========================================\n" + "- "+(i+1) + ") " +  vehicles.get(i).basicInfo()+"\n";
 				}			
 		}
 return info;
@@ -357,6 +371,37 @@ public String infoIfUsed(int index) {
 	return info;	
 	
 }
+	public void saveVehicles() throws IOException {
+		FileOutputStream fos = new FileOutputStream("data/Saved_Vehicles.va");
+		ObjectOutputStream out = new ObjectOutputStream(fos);
+		out.writeObject(vehicles);
+		out.close();
+}
+
+
+	public void saveSellers() throws IOException {
+		FileOutputStream fos = new FileOutputStream("data/Saved_Sellers.va");
+		ObjectOutputStream out = new ObjectOutputStream(fos);
+		out.writeObject(sellers);
+		out.close();
+	}
+	   @SuppressWarnings("unchecked")
+	public void load() throws ClassNotFoundException, IOException {
+		   File vload = new File("data/Saved_Vehicles.va");
+		   if (vload.exists()) {
+			   FileInputStream fis = new FileInputStream(vload);
+			   ObjectInputStream input = new ObjectInputStream(fis);
+			   vehicles = (ArrayList<Vehicle>) input.readObject();
+			   input.close();
+			}
+		   File sload = new File("data/Saved_Sellers.va");
+		   if (sload.exists()) {
+			   FileInputStream fis = new FileInputStream(sload);
+			   ObjectInputStream input = new ObjectInputStream(fis);
+			   sellers =  (ArrayList<Seller>) input.readObject();
+			   input.close();
+			}
+	   }
 
 }
 

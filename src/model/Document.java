@@ -1,6 +1,11 @@
 package model;
+import java.io.Serializable;
 import java.util.*;
-public abstract class Document {
+public abstract class Document implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private float price;
 	private int year;
 	private int [][] image; 

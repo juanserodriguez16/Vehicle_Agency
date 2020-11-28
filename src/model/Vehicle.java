@@ -1,10 +1,15 @@
 package model;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public abstract class Vehicle {
-      private float totalPrice;
+public abstract class Vehicle implements Serializable{
+      /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private float totalPrice;
       private float BasePrice;
       private String mark;
       private int model;
@@ -242,7 +247,7 @@ public abstract class Vehicle {
 								
 			}
 		  }else 
-			  info+="El vehiculo no tiene este documento\n";
+			  info+="El vehiculo no tiene este documento";
 	return info;
 
 

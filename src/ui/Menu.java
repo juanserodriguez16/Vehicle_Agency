@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -13,11 +14,14 @@ public class Menu {
 	* Initialize all variables  <br>
 	* <b> pre: </b> variables must be created in class <br>
 	* <b> post: </b> the variables are initialized, and create the objects.
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	*
 	*/
-	public static void initialize(){
+	public static void initialize() throws IOException, ClassNotFoundException {
 		enterprice = new Enterprice("Concesionario", 1005965741, 0, 0);
-		Seller s1 = new Seller("Camilo", "Perdomo", 133427583, 0);
+		
+		/**Seller s1 = new Seller("Camilo", "Perdomo", 133427583, 0);
 		Seller s2 = new Seller("juan", "Patiño", 123456865, 0);
 		Seller s3 = new Seller("David", "Garcia", 987543265, 0);
 		Seller s4 = new Seller("Laura", "Uribe", 8765432, 0);
@@ -94,7 +98,7 @@ public class Menu {
 		enterprice.addVehicle(h2);
 		// Crear Tipos de Mercancia
 		
-		
+		*/
 		
 		// Escaner para peticion de datos
 		  sc = new Scanner(System.in);
@@ -121,6 +125,53 @@ public class Menu {
 		System.out.println("10) Consulta del parqueadero y su estado");//
 		System.out.println("11) Consulatr informacion de los carros del parqueadero");
 		System.out.println("12) SALIR");//
+	}
+	public void menuRamas() {
+		System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+		System.out.println("                        Vehicle Agency                               ");
+		System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+		System.out.println("");
+		System.out.println("Elige la rama de la opcion que se va a desarrolar ");
+		System.out.println("1) Vehiculos");
+		System.out.println("2) Vendedores");
+		System.out.println("3) Clientes ");
+		System.out.println("4) Servicios adicionales");
+		System.out.println("5) Importar o exportar informacion de la empresa");
+		System.out.println("6) Parqueadero de carros");
+	}
+	public void menuVehicles() {
+		System.out.println("=================================Vehiculos=================================");
+		System.out.println("Digita el numero que corresponda con la opcion que deseas desarrollar");//
+		System.out.println("1) Mostrar vehiculos de interes e informe completo de estos");//
+		System.out.println("2) Agregar un vehiculo");//
+		System.out.println("3) Buscar un vehiculo");
+		System.out.println("3) Hacer una venta de vehiculo");
+		System.out.println("4) Eliminar un vehiculo de la empresa ");
+	}
+	public void menuClients() {
+		System.out.println("=================================Clientes=================================");
+		System.out.println("Digita el numero que corresponda con la opcion que deseas desarrollar");//
+		System.out.println("1) Ingresa un nuevo cliente");//
+		System.out.println("2) Mostrar los clientes ingresados y la informacion de cada uno");//
+		System.out.println("3) Buscar un cliente");
+		System.out.println("4) Eliminar un cliente");
+		
+	}
+	public void menuSellers() {
+		System.out.println("=================================Vendedor=================================");
+		System.out.println("Digita el numero que corresponda con la opcion que deseas desarrollar");//
+		System.out.println("1) Mostrar los asesores de venta y los clientes que han asesorado");//	
+		System.out.println("2) Agregar un asesor de venta");
+		System.out.println("3) Buscar un asesor de venta");
+		System.out.println("4) Eliminar un asesor de venta");
+		
+	}
+	public void nemuAditionalServices() {
+		System.out.println("=================================Servicios Adicionales=================================");
+		System.out.println("Digita el numero que corresponda con la opcion que deseas desarrollar");//
+		System.out.println("1) Agregar un servicio adicional nuevo");
+		System.out.println("2) Mostrar los servicios adicionales ordenados por su precio");
+		System.out.println("3) ");
 	}
 	/**
 	* will show on the screen the information of the parking<br>
@@ -301,8 +352,9 @@ public class Menu {
 		* Create a new vehicle and add in the enterprice<br>
 		* <b>pre: </b> variables must be created in class  <br>
 		* <b>post: </b> create a new vehicle an add in the enterprice.
+		 * @throws IOException 
 		*/
-		public void ReadVehicle() {
+		public void ReadVehicle() throws IOException {
 			System.out.println("Que tipo de vehiculo va a ingresar:");
 			System.out.println("1) Carro a gasolina");
 			System.out.println("2) Carro Electrico");
@@ -587,10 +639,11 @@ public class Menu {
 			System.out.println("Las ventas totales de la empresa son :\n");
 			System.out.println(myFormatter.format(enterprice.getTotalProfit()));
 		}
-		public void startProgram(){
+		public void startProgram() throws IOException, ClassNotFoundException{
 			initialize();	
 			int x= 0;
 			while(x !=12){
+				menuRamas();
 				menu();
 				x = sc.nextInt();
 				switch (x) {
