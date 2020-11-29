@@ -13,6 +13,8 @@ public class Enterprice {
 	private int nit;
 	private float totalProfit;
 	private float salesNumber;
+	private AdditionalServices first;
+	private AdditionalServices last;
 	private final static int COLS = 5;
 	private final static int ROWS = 10;
 	private Car[][] parkingSpace;
@@ -40,6 +42,8 @@ public class Enterprice {
 		sellers = new ArrayList<Seller>();
 		parkingSpace = new Car [COLS][ROWS];
 		load();
+		first= null;
+		last = first;
 	}
 	public Car[][] getParkingSpace() {
 		return parkingSpace;
@@ -419,14 +423,14 @@ public class Enterprice {
 			Seller temp;
 			for (int i = 1; i < matrix.length; i++) {
 				for (int j = 0; j < matrix.length - 1; j++) {
-					if (matrix[j].getLastName().compareTo(matrix[j + 1].getLastName()) == 0 ) {
+					if (matrix[j].getLastName().compareToIgnoreCase(matrix[j + 1].getLastName()) == 0 ) {
 						//https://es.stackoverflow.com/questions/241249/como-hacer-el-metodo-de-burbuja-para-ordenar-strings
 						if(matrix[j].getCedula() > matrix[j].getCedula()) {
 							temp = matrix[j];
 							matrix[j] = matrix[j + 1];
 							matrix[j + 1] = temp;
 						}
-					}else if (matrix[j].getLastName().compareTo(matrix[j + 1].getLastName()) > 0 )	{
+					}else if (matrix[j].getLastName().compareToIgnoreCase(matrix[j + 1].getLastName()) > 0 )	{
 						temp = matrix[j];
 						matrix[j] = matrix[j + 1];
 						matrix[j + 1] = temp;
@@ -556,6 +560,50 @@ public class Enterprice {
 		return str;
 	
 	}
+	public String deleteSeller(int cedula) {
+		Collections.sort(sellers, new SellerIdSort());
+		
+		Seller sel = null;
+		String str = "";
+		boolean found = false;
+		int start = 0;
+		int end = sellers.size();
+		while (start <= end && !found) {
+			int medium = (int) Math.floor((start + end) / 2);
+			if (medium != sellers.size()) {
+				int mediumElement = sellers.get(medium).getCedula();
+				int compareResult = cedula - mediumElement ;
+				if (compareResult == 0) {
+					found = true;
+					sel = sellers.get(medium);
+					str += "Se eliminó el siguiente vendedor";
+					str += sel.infoSeller() + "\n";
+					sellers.remove(sel);
+				} else if (compareResult < 0)
+					end = medium - 1;
+				else if (compareResult > 0)
+					start = medium + 1;
+			}
+		}
+		if (found == false) {
+			str = "No hay ningun asesor de venta con la cedula: " + cedula + "\n";
+		}
+		
+		return str;
+	}
+	public AdditionalServices getFirst() {
+		return first;
+	}
+	public void setFirst(AdditionalServices first) {
+		this.first = first;
+	}
+	public AdditionalServices getLast() {
+		return last;
+	}
+	public void setLast(AdditionalServices last) {
+		this.last = last;
+	}
+	
 	/**
 		public String selectionSortClient() {
 			   for (int i = 0; i < clients - 1; i++) {
@@ -577,6 +625,24 @@ public class Enterprice {
 				}
 		}
 	 */
+	public void addAdditionalServices(AdditionalServices newService) {
+		if(first==null) {
+			first = newService;
+			last = first;
+		}else {
+			AdditionalServices current = last;
+			newService.setPrev(last);
+			current.setNext(newService);
+			last = newService;			
+		}
+	}
+	public String infoServices() {
+		String info = "";
+		while(last.getNext()==null) {
+			
+		}
+		return info;
+	}
 }
 
 

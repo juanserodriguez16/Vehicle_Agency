@@ -21,86 +21,6 @@ public class Menu {
 	public static void initialize() throws IOException, ClassNotFoundException {
 		enterprice = new Enterprice("Concesionario", 1005965741, 0, 0);
 		
-		/**Seller s1 = new Seller("Camilo", "Perdomo", 133427583, 0);
-		Seller s2 = new Seller("juan", "Patiño", 123456865, 0);
-		Seller s3 = new Seller("David", "Garcia", 987543265, 0);
-		Seller s4 = new Seller("Laura", "Uribe", 8765432, 0);
-		Seller s5 = new Seller("Juan", "Rodriguez", 876543, 0);
-		Seller s6 = new Seller("Sebastian", "Garcia", 0000, 0);
-		Seller s7 = new Seller("Andres", "Rogelis", 65435, 0);
-		Seller s8 = new Seller("Isabella", "Martinez", 2342121, 0);
-		Seller s9 = new Seller("Claudia", "Medina", 45611178, 0);
-		Seller s10 = new Seller("Felipe", "Eraso", 656565, 0);
-		
-		
-		enterprice.addSeller(s1);
-		enterprice.addSeller(s2);
-		enterprice.addSeller(s3);
-		enterprice.addSeller(s4);
-		enterprice.addSeller(s5);
-		enterprice.addSeller(s6);
-		enterprice.addSeller(s7);
-		enterprice.addSeller(s8);
-		enterprice.addSeller(s9);
-		enterprice.addSeller(s10);
-		
-
-		
-		
-		GasolineCar gc1 = new GasolineCar(0, 80000000, "Ferrari"
-				, 2013, 2000, 0, true, "GHY-289", "SEDAN", 2, false, "EXTRA", 75);
-		
-		ElectricCar ec1 = new ElectricCar(0, 65000000, "Audi"
-				, 2020, 1600, 0, false, "CPY-256", "SEDAN", 4, true, "RAPIDO", 50);
-		
-		GasolineCar gc3 = new GasolineCar(0, 90000000, "Porsche"
-				, 2013, 2200, 7000, true, "TYU-765", "SEDAN", 4, true, "CORRIENTE", 50);
-		
-		GasolineCar gc5 = new GasolineCar(0, 30000000, "Chevrolet"
-				, 2020, 1600, 0, false, "ADF-890", "SEDAN", 4, true, "DIESEL", 50);
-		
-		GasolineCar gc4 = new GasolineCar(0, 30000000, "Mazda"
-				, 2013, 2000, 20000, true, "BNM-543", "CAMIONETA", 4, true, "DIESEL", 80);
-		
-		ElectricCar ec2 = new ElectricCar(0, 60000000, "Lamborghini"
-				, 2018, 2200, 50000, true, "MHQ-064", "CAMIONETA", 4, false, "RAPIDO", 50);
-		
-		ElectricCar ec3 = new ElectricCar(0, 100000000, "Nissan"
-				, 2018, 2200, 80000, true, "CMM-111", "CAMIONETA", 4, false, "RAPIDO", 50);
-		
-		ElectricCar ec4 = new ElectricCar(0, 95000000, "Kia"
-				, 2012, 2200, 0, true, "KIA-256", "SEDAN", 4, false, "RAPIDO", 50);
-		
-		Motocycle m1 = new Motocycle(0, 5000000, "AKT"
-				, 2013, 2000, 0, false, "CMM-28D", "ESTANDAR", 8);
-		
-		Motocycle m2 = new Motocycle(0, 20000000, "DUCATTI"
-				, 2013, 2000, 0, false, "GHY-78H", "ESTANDAR", 8);
-		HibritCar h1 = new HibritCar(0, 120000000, "Tezla"
-				, 2012, 2200, 0, true, "KTM-006", "SEDAN", 2, true, "RAPIDO", 50, "DIESEL", 30);
-		HibritCar h2 = new HibritCar(0, 200000000, "Tezla"
-				, 2011, 1600, 0, false, "PLM-016", "SEDAN", 2, true, "RAPIDO", 50, "EXTRA", 80);
-		SOAT soat1 = new SOAT(450000, 2020, 20000000);
-		h2.addSOAT(soat1);
-		
-	
-		enterprice.addVehicle(ec4);
-		enterprice.addVehicle(ec2);
-		enterprice.addVehicle(ec3);
-		enterprice.addVehicle(gc1);
-		enterprice.addVehicle(ec1);
-		enterprice.addVehicle(gc3);
-		enterprice.addVehicle(gc4);
-		enterprice.addVehicle(gc5);
-		enterprice.addVehicle(m1);
-		enterprice.addVehicle(m2);
-		enterprice.addVehicle(h1);
-		enterprice.addVehicle(h2);
-		// Crear Tipos de Mercancia
-		
-		*/
-		
-		// Escaner para peticion de datos
 		  sc = new Scanner(System.in);
 		  myFormatter = new DecimalFormat("###,###.###");
 		
@@ -263,7 +183,7 @@ public class Menu {
 					ShowSellers();
 					break;
 				case 2:
-					//metodo adicionar vendedor
+					readSeller();
 					break;
 				case 3:
 					System.out.println("Digita la cedula del vendedor");
@@ -271,7 +191,9 @@ public class Menu {
 					System.out.println(enterprice.searchSeller(cedula));
 					break;
 				case 4: 
-					//eliminar vendedor
+					System.out.println("Digita la cedula del vendedor");
+					int cedula2 = Integer.parseInt(sc.nextLine());
+					System.out.println(enterprice.deleteSeller(cedula2));
 					break;
 				case 5:
 					break;
