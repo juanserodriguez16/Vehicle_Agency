@@ -6,7 +6,7 @@ public class Main {
 	public static void main(String arsg[]) throws IOException, ClassNotFoundException {
 		Menu m;
 		m = new Menu();
-		m.startProgram();
+		m.startMenu();
 		
 	}
 }

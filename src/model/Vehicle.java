@@ -227,7 +227,7 @@ public abstract class Vehicle implements Serializable{
 		  myFormatter = new DecimalFormat("###,###.###");
 		String basicInfo ="\n" + "Marca: " +getMark() +  "\nModelo: " + getModel() + "\nCilindraje: "
 	+ getCilindraje() + "\nkilometraje: " + getMileaje()+ "\nPlaca: " + getPlaca()
-	+ "\nUsado: " + getUsed()+ "\nPrecio Base: " + myFormatter.format(getBasePrice())+ "\nPrecio Total: " + myFormatter.format(getTotalPrice()) + "\n" + infoSOATS() + "\n" + infoMC();;
+	+ "\nUsado: " + getUsed()+ "\nPrecio Base: " + myFormatter.format(getBasePrice())+ "\n" + infoSOATS() + "\n" + infoMC();;
 		  return basicInfo;
 	}
 	/** 
