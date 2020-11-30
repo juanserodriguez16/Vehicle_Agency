@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import exception.SellerNoFoundException;
+import exception.VehicleNoFoundException;
 import model.*;
 public class Menu {
 	private static Scanner sc;
@@ -122,7 +124,7 @@ public class Menu {
 		System.out.println("2) Listado de vehiculos vendidos");
 		System.out.println("3) SALIR ");
 	}
-	public void startMenu() throws IOException, ClassNotFoundException {
+	public void startMenu() throws IOException, ClassNotFoundException, SellerNoFoundException {
 		initialize();	
 		int x= 0;
 		int opt = 0;
@@ -159,7 +161,11 @@ public class Menu {
 				case 3:
 					System.out.println("Ingresa la placa del vehiculo que deseas buscar");
 					String placa = sc.nextLine();
-					System.out.println(enterprice.searchVehicle(placa));
+					try {
+						System.out.println(enterprice.searchVehicle(placa));
+					}catch (VehicleNoFoundException e) {
+						System.out.println(e.getMessage());
+					}
 					break;
 				case 4:
 					createSale();
@@ -167,7 +173,11 @@ public class Menu {
 				case 5:
 					System.out.println("Ingresa la placa del vehiculo que deseas eliminar");
 					String placa1 = sc.nextLine();
-					System.out.println(enterprice.deleteVehicle(placa1));
+					try {
+						System.out.println(enterprice.deleteVehicle(placa1));
+					}catch (VehicleNoFoundException e) {
+						System.out.println(e.getMessage());
+					}
 					enterprice.saveVehicles();
 					break;
 				case 6:
@@ -188,12 +198,22 @@ public class Menu {
 				case 3:
 					System.out.println("Digita la cedula del vendedor");
 					int cedula = Integer.parseInt(sc.nextLine());
-					System.out.println(enterprice.searchSeller(cedula));
+					try {
+						System.out.println(enterprice.searchSeller(cedula));
+					}catch (SellerNoFoundException e) {
+						System.out.println(e.getMessage());
+					}
+					
 					break;
 				case 4: 
 					System.out.println("Digita la cedula del vendedor");
 					int cedula2 = Integer.parseInt(sc.nextLine());
-					System.out.println(enterprice.deleteSeller(cedula2));
+					try {
+						System.out.println(enterprice.deleteSeller(cedula2));
+					}catch (SellerNoFoundException e) {
+						System.out.println(e.getMessage());
+					}
+					
 					break;
 				case 5:
 					break;

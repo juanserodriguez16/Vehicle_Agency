@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
+import exception.SellerNoFoundException;
+import exception.VehicleNoFoundException;
 
 public class Enterprice {
 	private String name;
@@ -469,7 +471,7 @@ public class Enterprice {
 		}
 		return info;
 	}
-	public String searchSeller(int cedula) {
+	public String searchSeller(int cedula) throws SellerNoFoundException {
 		Collections.sort(sellers, new SellerIdSort());
 		long startTime = System.currentTimeMillis();
 		Seller sel = null;
@@ -494,12 +496,13 @@ public class Enterprice {
 		}
 		if (found == false) {
 			str = "No hay ningun asesor de venta con la cedula: " + cedula + "\n";
+			throw new SellerNoFoundException(cedula);
 		}
 		long endTime = System.currentTimeMillis();
 		str += "Duracion de la busqueda: " + (endTime - startTime)+ " ms";
 		return str;
 	}
-	public String searchVehicle(String placa) {
+	public String searchVehicle(String placa) throws VehicleNoFoundException {
 		Collections.sort(vehicles, new VehiclePlateSort());
 		long startTime = System.currentTimeMillis();
 		Vehicle veh = null;
@@ -524,12 +527,13 @@ public class Enterprice {
 		}
 		if (found == false) {
 			str = "No se encontró ningun vehiculo con placa " + placa +"\n";
+			throw new VehicleNoFoundException(placa);
 		}
 		long endTime = System.currentTimeMillis();
 		str += "\nDuracion de la busqueda: " + (endTime - startTime) + " ms";
 		return str;
 	}
-	public String deleteVehicle(String placa) {
+	public String deleteVehicle(String placa) throws VehicleNoFoundException {
 		Collections.sort(vehicles, new VehiclePlateSort());
 		Vehicle veh = null;
 		String str = "";
@@ -555,12 +559,13 @@ public class Enterprice {
 		}
 		if (found == false) {
 			str = "No se encontró ningun vehiculo con placa " + placa +"\n";
+			throw new VehicleNoFoundException(placa);
 		}
 
 		return str;
 	
 	}
-	public String deleteSeller(int cedula) {
+	public String deleteSeller(int cedula) throws SellerNoFoundException {
 		Collections.sort(sellers, new SellerIdSort());
 		
 		Seller sel = null;
@@ -587,6 +592,7 @@ public class Enterprice {
 		}
 		if (found == false) {
 			str = "No hay ningun asesor de venta con la cedula: " + cedula + "\n";
+			throw new SellerNoFoundException(cedula);
 		}
 		
 		return str;
