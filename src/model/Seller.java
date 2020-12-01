@@ -15,6 +15,7 @@ private float salesQuantity;
 private int clientsCuantity;
 private ArrayList<Client> sellerClients;
 final public int MAXCLIENTS = 5;
+public final static String CSVS = ";";
 
 /** 
 * will transform the parameters into a variables of this class and create type of object <br> 
@@ -141,14 +142,18 @@ public void setSalesQuantity(float salesQuantity) {
 */
 public String infoSeller() {
 	String infoSeller = "Nombre: " +getName() +  "\nApellido: " + getLastName() + "\nCedula: "
-+ getCedula() +  "\nCantidad de ventas: " + getSalesQuantity();
+			+ getCedula() +  "\nCantidad de ventas: " + getSalesQuantity();
 	String  clients = "\nLos clientes que fueron asesorados:\n";
 	for (int i = 0; i <sellerClients.size() ; i++) {
 		clients += sellerClients.get(i).getName()+"\n";
-		
-}
+
+	}
 	infoSeller += clients;
 	return infoSeller;
+}
+public String infoCSV() {
+	String infocsv = getName() + CSVS + getLastName() + CSVS + getCedula() + CSVS + getSalesQuantity() + CSVS;
+	return infocsv;
 }
 
 /** 

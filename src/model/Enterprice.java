@@ -714,5 +714,22 @@ public class Enterprice {
 			bw.close();
 	    	fw.close(); 
 		}
+	 public void exportSellers(String nameFile) throws IOException {
+	    	File outseller = new File("data/"+nameFile+".csv");
+	    	FileWriter fw = new FileWriter(outseller);
+	    	BufferedWriter bw = new BufferedWriter(fw);
+	    	String message  = "vendedor " + CSVS + "Nombre" + CSVS + "Apellido" + CSVS + "Cedula" + 
+	    	CSVS + "Cantidad de ventas\n";	
+	    	int x = 1;
+	    	for (int i  = 0; i < sellers.size(); i++) {
+	    		Seller sel = sellers.get(i);
+	    		message +=  "" + x + ";" + sel.infoCSV() + "\n";
+	    		x++;
+	    		
+	    	}
+	    	bw.write(message);
+			bw.close();
+	    	fw.close();  
+	 }
 }
 

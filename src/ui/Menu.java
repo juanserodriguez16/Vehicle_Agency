@@ -352,7 +352,9 @@ public class Menu {
 				case 2:
 					break;
 				case 3:
-					//exportSellers();
+					System.out.println("ingresa el nombre del archivo a crear");
+					String namefile = sc.nextLine();
+					enterprice.exportSellers(namefile);
 					break;
 				case 4: 
 					System.out.println("ingresa el tipo de vehiculos que vas a exportar la informacion");
@@ -361,7 +363,7 @@ public class Menu {
 					System.out.println("3) Carros hibridos");
 					System.out.println("4) Motos");
 					int type = Integer.parseInt(sc.nextLine());
-					System.out.println("Ingresa el nombre que tendrá el arqchivo");
+					System.out.println("Ingresa el nombre que tendrá el archivo");
 					String nameFile = sc.nextLine();
 					enterprice.toExportVehiclesCSV(type, nameFile);
 					
