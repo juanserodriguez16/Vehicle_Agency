@@ -1,0 +1,6 @@
+Moto  ;Marca;Modelo;Cilindraje;Kilometraje;Placa;Usado;Precio base;Tipo de moto;Capacidad de gasolina;Consumo de gaolina por kilometro
+1;DUCATTI;2013;2000;0;GHY-78H;false;20.000.000;ESTANDAR;8;160.0
+2;AKT;2013;125;11000;LLL-000;true;7.000.000;2;20;20.0
+
+No hay mas motos registradas en el sistema.
+

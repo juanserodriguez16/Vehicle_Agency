@@ -1,0 +1,6 @@
+Carro  ;Marca;Modelo;Cilindraje;Kilometraje;Placa;Usado;Precio base;Tipo de carro;Polarizado;Numero de puertas;Tipo de carga ;Capacidad de la bateria;Consumo De bateria por kilometro;Tipo de gasolina ;Capacidad del tanque;Consumo De Gasolina por kilometro
+1;Tezla;2012;2200;0;KTM-006;true;120.000.000;SEDAN;true;2;RAPIDO;50;1100.0;DIESEL;30;660.0
+2;Tezla;2011;1600;0;PLM-016;false;200.000.000;SEDAN;true;2;RAPIDO;50;800.0;EXTRA;80;1280.0
+
+No hay más carros hibridos registrados en el sistema.
+

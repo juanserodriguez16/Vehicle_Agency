@@ -1,0 +1,8 @@
+Carro  ;Marca;Modelo;Cilindraje;Kilometraje;Placa;Usado;Precio base;Tipo de carro;Polarizado;Numero de puertas;Tipo de gasolina ;Capacidad del tanque;Consumo De Gasolina por kilometro
+1;Chevrolet;2020;1600;0;ADF-890;false;30.000.000;SEDAN;true;4;DIESEL;50;800.0
+2;Mazda;2013;2000;20000;BNM-543;true;30.000.000;CAMIONETA;true;4;DIESEL;80;1600.0
+3;Ferrari;2013;2000;0;GHY-289;true;80.000.000;SEDAN;false;2;EXTRA;75;1500.0
+4;Porsche;2013;2200;7000;TYU-765;true;90.000.000;SEDAN;true;4;CORRIENTE;50;1100.0
+
+No hay más carros a gasolina 
+

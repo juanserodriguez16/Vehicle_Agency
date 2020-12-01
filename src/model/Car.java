@@ -3,6 +3,10 @@ package model;
 import java.util.*;
 
 public abstract class Car extends Vehicle {
+	/**
+	 * 
+	 */
+
 	private  String type;
 	private int numberOfDoors;
 	private boolean polarizado;
@@ -99,5 +103,6 @@ public abstract class Car extends Vehicle {
 				 "\nNumero de puertas: " +  getNumberOfDoors();
 		 return basicInfo;
 	  }
+	  
 
 }

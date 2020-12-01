@@ -1,8 +1,10 @@
 package model;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,6 +19,7 @@ public class Enterprice {
 	private AdditionalServices last;
 	private final static int COLS = 5;
 	private final static int ROWS = 10;
+	private final static String CSVS = ";";
 	private Car[][] parkingSpace;
 	private ArrayList<Vehicle> vehicles;
 	private ArrayList<Seller> sellers;
@@ -41,9 +44,10 @@ public class Enterprice {
 		vehicles = new ArrayList<Vehicle>();
 		sellers = new ArrayList<Seller>();
 		parkingSpace = new Car [COLS][ROWS];
-		load();
+	
 		first= null;
 		last = first;
+		load();
 	}
 	public Car[][] getParkingSpace() {
 		return parkingSpace;
@@ -604,27 +608,6 @@ public class Enterprice {
 		this.last = last;
 	}
 	
-	/**
-		public String selectionSortClient() {
-			   for (int i = 0; i < clients - 1; i++) {
-				   int maxPosition = i;
-					for (int j = i + 1; j < clients.size(); j++) {
-						int result = clients.get(j).getLastName().compareTo(clients.get(maxPosition).getLastName());
-						if (result == 0) {
-							result = clients.get(j).getNumPhone().compareTo(clients.get(maxPosition).getNumPhone());
-							if (result > 0)
-								maxPosition = j;
-						} else if (result > 0)
-							maxPosition = j;
-					}
-					if (maxPosition != i) {
-						Client aux = clients.get(i);
-						clients.set(i, clients.get(maxPosition));
-						clients.set(maxPosition, aux);
-					}
-				}
-		}
-	 */
 	public void addAdditionalServices(AdditionalServices newService) {
 		if(first==null) {
 			first = newService;
@@ -643,6 +626,87 @@ public class Enterprice {
 		}
 		return info;
 	}
-}
+	 public void toExportVehiclesCSV(int opt, String nameFile) throws IOException {
+	    	File output = new File("data/"+nameFile+".csv");
+	    	FileWriter fw = new FileWriter(output);
+	    	BufferedWriter bw = new BufferedWriter(fw);
+	    	String message  = "";	
+	    	switch(opt) {
+	    	case 1:				
+	    		message = "Carro  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
+	    		+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de carro" + CSVS + 
+	    		"Polarizado" + CSVS + "Numero de puertas" + CSVS + "Tipo de gasolina "
+	    		+ CSVS + "Capacidad del tanque" + CSVS + "Consumo De Gasolina por kilometro\n";    
+	    		int x = 1;
+	    		for (int i = 0; i < vehicles.size(); i++) {
+	    			if (vehicles.get(i) != null) {
+	    				if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof GasolineCar) {
+	    					GasolineCar g = (GasolineCar) vehicles.get(i);
+	    					message += "" +x+";"+ g.infoCSV()+ g.getType() + CSVS + g.getPolarizado() +CSVS + g.getNumberOfDoors() + CSVS + g.getGasolineType() + CSVS +
+	    							g.getGasolineCapacity() + CSVS + g.getGasolineConsume() + "\n";
+	    					x++;
+	    				}
+	     					
+	    			}
+	    		}message += "\nNo hay más carros a gasolina \n\n";
+	    		break;
+	    	case 2:
+	    		message = "Carro  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
+	    	    		+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de carro" + CSVS + 
+	    	    		"Polarizado" + CSVS + "Numero de puertas" + CSVS + "Tipo de carga "
+	    	    		+ CSVS + "Capacidad de la bateria" + CSVS + "Consumo De bateria por kilometro\n"; 
+	    		int y = 1;
+	    		for (int i = 0; i < vehicles.size(); i++) {
+	    			if (vehicles.get(i) != null) {
+	    				if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof ElectricCar ) {
+	    					ElectricCar elec = (ElectricCar) vehicles.get(i);
+	    					message += "" +y+";"+ elec.infoCSV()+ elec.getType() + CSVS + elec.getPolarizado() +CSVS + elec.getNumberOfDoors() + CSVS + elec.getChargerType() + CSVS +
+	    							elec.getBatteryLife() + CSVS + elec.getBatteryConsume() + "\n";
+	    					y++;
+	    				}
+	    			}
+	    		}message += "\nNo hay más carros electricos registrados en el sistema.\n\n";
+	    		break;
+	    	case 3:
+	    		message = "Carro  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
+	    		+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de carro" + CSVS + 
+	    		"Polarizado" + CSVS + "Numero de puertas" + CSVS + "Tipo de carga "
+	    		+ CSVS + "Capacidad de la bateria" + CSVS + "Consumo De bateria por kilometro" + CSVS + "Tipo de gasolina " 
+	    				    		+ CSVS + "Capacidad del tanque" + CSVS + "Consumo De Gasolina por kilometro\n";
+				int z = 1;
+				for (int i = 0; i < vehicles.size(); i++) {
+					if (vehicles.get(i) != null) {
+						if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof HibritCar ) {
+							HibritCar hyb = (HibritCar) vehicles.get(i);
+							message += "" +z+";"+ hyb.infoCSV()+ hyb.getType() + CSVS + hyb.getPolarizado() +CSVS + hyb.getNumberOfDoors() + CSVS + hyb.getChargerType() + CSVS +
+									hyb.getBatteryLife() + CSVS + hyb.getBatteryConsume() + CSVS + hyb.getGasolineType() + CSVS + hyb.getGasolineCapacity() + 
+									CSVS + hyb.getGasolineConsume() +"\n";
+							z++;
+						} 
+					}
+				}message += "\nNo hay más carros hibridos registrados en el sistema.\n\n";
 
+				break;
+			case 4:
+				message +="Moto  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
+			    		+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de moto" +
+						CSVS + "Capacidad de gasolina" + CSVS + "Consumo de gaolina por kilometro\n";
+				int w = 1;
+				for (int i = 0; i < vehicles.size(); i++) {
+					if (vehicles.get(i) != null) {
+						if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof Motocycle ) {
+							Motocycle moto = (Motocycle) vehicles.get(i);
+							message += "" + w + ";" + moto.infoCSV() + moto.getTypeM() + CSVS + moto.getGasolineCapacity() + CSVS + moto.getGasolineConsume() +"\n"; 
+							w++;
+						} 
+							
+					}
+				}message += "\nNo hay mas motos registradas en el sistema.\n\n";
+				break;
+			}
+	    	bw.write(message);
+			bw.close();
+	    	fw.close(); 
+		}
+}
 

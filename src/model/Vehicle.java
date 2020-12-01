@@ -23,6 +23,7 @@ public abstract class Vehicle implements Serializable{
       private double useddiscount; 
       private boolean soldStatus;
       private static DecimalFormat myFormatter;
+      public final static String CSVS = ";";
       
 
  	 /** 
@@ -229,6 +230,12 @@ public abstract class Vehicle implements Serializable{
 	+ getCilindraje() + "\nkilometraje: " + getMileaje()+ "\nPlaca: " + getPlaca()
 	+ "\nUsado: " + getUsed()+ "\nPrecio Base: " + myFormatter.format(getBasePrice())+ "\n" + infoSOATS() + "\n" + infoMC();;
 		  return basicInfo;
+	}
+	public String infoCSV() {
+		 myFormatter = new DecimalFormat("###,###.###");
+		 String csvinfo = getMark() + CSVS + getModel() + CSVS + getCilindraje() + CSVS + getMileaje() + CSVS + getPlaca() + CSVS + getUsed() + CSVS + myFormatter.format(getBasePrice())
+		 + CSVS;
+		 return  csvinfo;
 	}
 	/** 
 	* Accumulates the data in a chain of information <br> 
