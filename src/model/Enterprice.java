@@ -116,7 +116,7 @@ public class Enterprice {
 	 * <b>post: </b>get the object selected.
 	 * @return clients. 
 	 */	
-	public ArrayList<Client> getClients(int ixseller) {
+	public Client getClients(int ixseller) {
 		return sellers.get(ixseller).getClients();	
 	}
 	/** 
@@ -231,20 +231,12 @@ public class Enterprice {
 	 * @return info. 
 	 */
 	public String infoClients() {
-		ArrayList<Client> vClient;
-		vClient = new ArrayList<Client>();
 		String info = "Los clientes ingresados son:\n";
 		for (int i = 0; i < sellers.size() ; i++) {
-			vClient = sellers.get(i).getClients();
-			for (int j = 0; j < vClient.size() ; j++) {
-				info += "- "+(j+1)  + ") " +  vClient.get(j).infoClient() +  "\nVendedor encargado: "
-						+ sellers.get(i).getName()+"\n";
-			}
-
+			info += sellers.get(i).inOrden();
 		}
 		return info;
 	}
-
 
 	/** 
 	 * Accumulates the data in a chain of information <br> 
@@ -253,15 +245,9 @@ public class Enterprice {
 	 * @return info.
 	 * @param ixseller the selection object of the index. ixseller != null. 
 	 */
-	public String infoClients(int ixseller) {
-		ArrayList<Client> vClient;
-		vClient = new ArrayList<Client>();
+	public String infoClients(int ixseller) {	
 		String info = "Los clientes ingresados son:\n";
-		vClient = sellers.get(ixseller).getClients();
-		for (int j = 0; j < vClient.size() ; j++) {
-			info += "- "+(j+1)  + ") " +  vClient.get(j).infoClient() +  "\nVendedor encargado: "
-					+ sellers.get(ixseller).getName()+"\n";
-		}
+		info += sellers.get(ixseller).inOrden();
 		return info;
 	}
 
@@ -288,7 +274,8 @@ public class Enterprice {
 	public String ShowNameSellers() {
 		String info = "Los asesores de la empresa son:\n";
 		for (int i = 0; i < sellers.size() ; i++) {
-			info += "- "+(i+1)  + ") " +  sellers.get(i).getName()+"\n";
+			info += "- "+(i+1)  + ") " +  sellers.get(i).getName()+ " " +sellers.get(i).getLastName()
+					+"\n";
 
 		}
 		return info;
@@ -738,8 +725,10 @@ public class Enterprice {
 		fw.close();  
 	}
 
-	public void importSelleres(String namefile) throws IOException {
+	public void importSelleres(String namefile) throws IOException, FileNotFoundException{
+		
 		File input = new File ("data/" +namefile +".txt");
+		if(input.exists()) {
 		FileReader fr = new FileReader (input);
 		BufferedReader br = new BufferedReader(fr);
 		String linea;
@@ -755,11 +744,16 @@ public class Enterprice {
 				addSeller(newSeller);
 			}
 			contador++;
-		}				
+		}	
+		}else 
+			throw new FileNotFoundException("El archivo no pudo ser encontrado, intenta de nuevo");
+
 
 	}
-	public void importVehicles(String namefile, int opt) throws NumberFormatException, IOException {
+	public void importVehicles(String namefile, int opt) throws NumberFormatException, IOException, FileNotFoundException{
+		
 		File input = new File ("data/" +namefile +".txt");
+		if(input.exists()) {
 		FileReader fr = new FileReader (input);
 		BufferedReader br = new BufferedReader(fr);
 		String linea;
@@ -916,6 +910,8 @@ public class Enterprice {
 			break;
 
 		}
+		}else
+			throw new FileNotFoundException("No se encontró el archivo, intenta de nuevo");
 		}
 }
 

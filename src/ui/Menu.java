@@ -1,9 +1,11 @@
 package ui;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import exception.MaximunAssignedClientsException;
 import exception.SellerNoFoundException;
 import exception.VehicleNoFoundException;
 import model.*;
@@ -22,7 +24,8 @@ public class Menu {
 	*/
 	public static void initialize() throws IOException, ClassNotFoundException {
 		enterprice = new Enterprice("Concesionario", 1005965741, 0, 0);
-		/**Seller s1 = new Seller("Camilo", "Perdomo", 133427583, 0);	
+		/**
+		Seller s1 = new Seller("Camilo", "Perdomo", 133427583, 0);	
 		Seller s2 = new Seller("juan", "Patiño", 123456865, 0);	
 		Seller s3 = new Seller("David", "Garcia", 987543265, 0);	
 		Seller s4 = new Seller("Laura", "Uribe", 8765432, 0);	
@@ -156,8 +159,7 @@ public class Menu {
 		System.out.println("1) Ingresa un nuevo cliente");//
 		System.out.println("2) Mostrar los clientes ingresados y la informacion de cada uno");//
 		System.out.println("3) Buscar un cliente");
-		System.out.println("4) Eliminar un cliente");
-		System.out.println("5) SALIR ");
+		System.out.println("4) SALIR ");
 		
 	}
 	public void menuSellers() {
@@ -201,7 +203,7 @@ public class Menu {
 		System.out.println("2) Listado de vehiculos vendidos");
 		System.out.println("3) SALIR ");
 	}
-	public void startMenu() throws IOException, ClassNotFoundException, SellerNoFoundException {
+	public void startMenu() throws IOException, ClassNotFoundException, SellerNoFoundException, MaximunAssignedClientsException, FileNotFoundException {
 		initialize();	
 		int x= 0;
 		int opt = 0;
@@ -309,14 +311,18 @@ public class Menu {
 					ShowClients();
 					break;
 				case 3:
-					//metodo buscar cliente
+					System.out.println(enterprice.ShowNameSellers());
+					System.out.println("Digita que vendedor que Asesoro");			
+					int seller = Integer.parseInt(sc.nextLine());
+					ShowClients(seller);
+					System.out.println("Digita la cedula del cliente va a hacer la compra");
+					int client = Integer.parseInt(sc.nextLine());
+					Client lClient = enterprice.getSeller(seller).getClient(client);
+					System.out.println(lClient.infoClient());
 					break;
 				case 4: 
-					//eliminar cliente
-					break;
-				case 5:
-					break;
 					
+					break;
 				}
 			
 				break;
@@ -347,16 +353,28 @@ public class Menu {
 				opt = Integer.parseInt(sc.nextLine());
 				switch(opt) {
 				case 1:
+					try {
 					System.out.println("Digita el nombre del archivo a importar");
 					String nf = sc.nextLine();
 					enterprice.importSelleres(nf);
+					}catch (FileNotFoundException e) {
+						System.out.println(e.getMessage());
+					}
 					break;
 				case 2:
+					try {
 					System.out.println("Ingresa el numero que corresponde al tipo de vehiculos que vas a importar");
+					System.out.println("1) Carros a gasolina");
+					System.out.println("2) Carros electricos");
+					System.out.println("3) Carros hibridos");
+					System.out.println("4) Motos");
 					int impo = Integer.parseInt(sc.nextLine());
 					System.out.println("Ingresa el nombre del archivo a importar");
 					String fn = sc.nextLine();
 					enterprice.importVehicles(fn, impo);
+					}catch (FileNotFoundException e) {
+						System.out.println(e.getMessage());
+					}
 					break;
 				case 3:
 					System.out.println("ingresa el nombre del archivo a crear");
@@ -531,8 +549,10 @@ public class Menu {
 	* Create a new client and add in the enterprice<br>
 	* <b>pre: </b> variables must be created in class  <br>
 	* <b>post: </b> create a new client an add in the enterprice.
+	 * @throws MaximunAssignedClientsException 
 	*/
-	public void ReadClient() {
+	public void ReadClient() throws MaximunAssignedClientsException {
+		try {
 		System.out.println("Digita el Nombre del Nuevo cliente");
 		String nameClient = sc.nextLine();
 		System.out.println("Digita el apellido del cliente");
@@ -549,6 +569,9 @@ public class Menu {
 		
 		Client newClient = new Client(nameClient, lastNane, cedula, phone, email);
 		enterprice.getSeller(seller).addClient(newClient);
+		}catch (MaximunAssignedClientsException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	/**
 	* Show clients and his information <br>
@@ -828,7 +851,7 @@ public class Menu {
 			System.out.println("Digita que vendedor que Asesoro");			
 			int seller = Integer.parseInt(sc.nextLine());
 			ShowClients(seller);
-			System.out.println("Digita que cliente va a hacer la compra");
+			System.out.println("Digita la cedula del cliente va a hacer la compra");
 			int client = Integer.parseInt(sc.nextLine());
 			Client lClient = enterprice.getSeller(seller).getClient(client);
 			infoSale += "=============================== \n La informacion completa del cliente es\n " + lClient.infoClient() + "\n";	

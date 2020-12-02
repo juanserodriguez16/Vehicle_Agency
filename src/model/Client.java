@@ -6,6 +6,9 @@ public class Client {
 	private int cedula;
 	private int phone;
 	private String email;
+	private Client left;
+	private Client right;
+	private Client parent;
 	
 	 /** 
 	 * will transform the parameters into a variables of this class and create type of object <br> 
@@ -24,6 +27,10 @@ public class Client {
 		this.cedula = cedula;
 		this.phone = phone;
 		this.email = email;
+		this.parent = null;
+		this.left = null;
+		this.right = null;
+
 	}
 	 /** 
 	 * get the element that you selected<br> 
@@ -126,5 +133,23 @@ public class Client {
 		String infoClient = "Nombre: " +getName() +  "\nApellido: " + getLastName() + "\nCedula: "
 				+ getCedula() +  "\nTelefono: " + getPhone() + "\nE-mail: "+ getEmail();
 		return infoClient;
+	}
+	public Client getLeft() {
+		return left;
+	}
+	public void setLeft(Client left) {
+		this.left = left;
+	}
+	public Client getRight() {
+		return right;
+	}
+	public void setRight(Client right) {
+		this.right = right;
+	}
+	public Client getParent() {
+		return parent;
+	}
+	public void setParent(Client parent) {
+		this.parent = parent;
 	}
 }

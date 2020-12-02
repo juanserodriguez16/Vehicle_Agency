@@ -17,8 +17,8 @@ public abstract class Vehicle implements Serializable{
       private int mileaje;
       private boolean used;
       private String placa;
-      private ArrayList<SOAT> soats;
-      private ArrayList<MechanicService> mechanicServices;
+      private SOAT soats;
+      private MechanicService mechanicServices;
       private double adicionalCost; 
       private double useddiscount; 
       private boolean soldStatus;
@@ -50,8 +50,8 @@ public abstract class Vehicle implements Serializable{
     	  this.used = used;
     	  this.placa = placa;
     	  this.soldStatus = false;
-    	  soats = new ArrayList<SOAT>();
-    	  mechanicServices = new ArrayList<MechanicService>();
+    	  soats = null;
+    	  mechanicServices = null;
       }
  	 /** 
   	 * Add an item to a list<br> 
@@ -60,9 +60,12 @@ public abstract class Vehicle implements Serializable{
   	 * @param soat the selection object of the soat. soat != null. 
   	 */
       public void addSOAT(SOAT soat) {
-    		soats.add(soat);
+		  if (soats == null)
+		  	soats = soat;
+		  else
+		  	soats.setNext(soat);
     	}
-      public ArrayList<SOAT> getSOATS() {
+      public SOAT getSOATS() {
     		return soats;	
     	}
  	 /** 
@@ -72,7 +75,10 @@ public abstract class Vehicle implements Serializable{
   	 * @param mechanicService the selection object of the mechanicService. mechanicService != null. 
   	 */
       public void addMechanicService(MechanicService mechanicService) {
-    	  mechanicServices.add(mechanicService);
+    	 if (mechanicServices == null)
+    		 mechanicServices = mechanicService;
+    	 else 
+    		 mechanicServices.setNext(mechanicService);
       }
  	 /** 
   	 * get the element that you selected<br> 
@@ -244,17 +250,18 @@ public abstract class Vehicle implements Serializable{
 	* @return basicInfo. 
 	*/
 	public String infoSOATS() {
+		SOAT current;
+			current = soats;
 		  String info = "Los SOATS de este vehiculo son:\n";
-		  if(!soats.isEmpty()) {
-			  
-		  
-			for (int i = 0; i < soats.size() ; i++) {
-					
-					info += "- "+(i+1)  + ") " +  soats.get(i).Info();
-								
+		  if(current != null) {
+			int i = 1;  		  
+			while (current != null){
+					info += "- "+ (i) + ") " +  current.Info();
+					i++;
+					current = (SOAT) current.getNext();
 			}
 		  }else 
-			  info+="El vehiculo no tiene este documento";
+			  info = "El vehiculo no tiene SOATS";
 	return info;
 
 
@@ -266,15 +273,18 @@ public abstract class Vehicle implements Serializable{
 	* @return basicInfo. 
 	*/
 	public String infoMC() {
+		MechanicService current;
+		current = mechanicServices;
 		 String info = "Los servicios de revision tecnicomecanica de este vehiculo son:\n";
-		if(!mechanicServices.isEmpty()) {
-		 
-			for (int i = 0; i < mechanicServices.size() ; i++) {
+		if(mechanicServices != null) {
+		 int i = 1;
+			while(current != null) {
 					
-					info += "- "+(i+1) + ") " +  mechanicServices.get(i).Info();
-								
+				info += "- "+ (i) + ") " +  current.Info();
+				i++;
+				current = (MechanicService) current.getNext();
 			}
-		}else info += "El vehiculo no tiene este documento";
+		}else info = "El vehiculo no tiene Documentos de servicio tecnicomecanico";
 	return info;
 
 
@@ -307,10 +317,17 @@ public abstract class Vehicle implements Serializable{
 	 * @param active the selection variable of the active. active != null. 
 	 */
 	public boolean ActiveSoat() {
+		SOAT current;
 		boolean active = false;
-		for (int i = 0; i < soats.size() ; i++) {
-			if (soats.get(i).getStatus())
-				active = soats.get(i).getStatus();
+		current = soats;
+		
+		if(current != null) {
+					  
+			while (current != null){
+				if (current.getStatus())
+					active = current.getStatus();
+					current = (SOAT) current.getNext();
+			}
 		}
 		return active;
 	}	
@@ -322,13 +339,20 @@ public abstract class Vehicle implements Serializable{
 	 * @param active the selection variable of the active. active != null. 
 	 */
 	public boolean ActiveMechanicSer() {
+		MechanicService current;
 		boolean active = false;
-		for (int i = 0; i < mechanicServices.size() ; i++) {
-				if (mechanicServices.get(i).getStatus())
-					active = mechanicServices.get(i).getStatus();
-			
+		current = mechanicServices;
 		
+		if(current != null) {
+					  
+			while (current != null){
+				if (current.getStatus())
+					active = current.getStatus();
+					current = (MechanicService) current.getNext();
+			}
 		}
+
+		
 		return active;
 	}	
 	 /** 

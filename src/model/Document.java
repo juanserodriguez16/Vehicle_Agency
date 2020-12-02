@@ -12,6 +12,7 @@ public abstract class Document implements Serializable {
 	final int SIZE = 4;
 	private boolean status;
 	final private int ACTUALYEAR = 2020;
+	private Document next;
 	 /** 
 	 * will transform the parameters into a variables of this class and create type of object <br> 
 	 * <b>pre: </b> the parameters cannot be null<br> 
@@ -22,6 +23,7 @@ public abstract class Document implements Serializable {
 	public Document (float price, int year) {
 		this.price = price;
 		this.year = year;
+		next = null;
 		if (year == ACTUALYEAR
 				) {
 			this.status = true;
@@ -112,6 +114,14 @@ public abstract class Document implements Serializable {
 	 */
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public Document getNext() {
+		return next;
+	}
+
+	public void setNext(Document next) {
+		this.next = next;
 	}
 	
 	
