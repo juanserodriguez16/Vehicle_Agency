@@ -1,0 +1,3 @@
+holi
+5000000;Pulsar;2020;200;0;false;KKK-034;Deportiva;40;
+3500000;akt;2013;125;11000;true;PPP-111;Scooter;12;

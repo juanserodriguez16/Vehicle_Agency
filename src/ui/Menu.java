@@ -347,9 +347,16 @@ public class Menu {
 				opt = Integer.parseInt(sc.nextLine());
 				switch(opt) {
 				case 1:
-					//importSellers();
+					System.out.println("Digita el nombre del archivo a importar");
+					String nf = sc.nextLine();
+					enterprice.importSelleres(nf);
 					break;
 				case 2:
+					System.out.println("Ingresa el numero que corresponde al tipo de vehiculos que vas a importar");
+					int impo = Integer.parseInt(sc.nextLine());
+					System.out.println("Ingresa el nombre del archivo a importar");
+					String fn = sc.nextLine();
+					enterprice.importVehicles(fn, impo);
 					break;
 				case 3:
 					System.out.println("ingresa el nombre del archivo a crear");

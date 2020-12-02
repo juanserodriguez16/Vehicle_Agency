@@ -1,13 +1,19 @@
 package model;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import exception.SellerNoFoundException;
 import exception.VehicleNoFoundException;
@@ -46,7 +52,7 @@ public class Enterprice {
 		vehicles = new ArrayList<Vehicle>();
 		sellers = new ArrayList<Seller>();
 		parkingSpace = new Car [COLS][ROWS];
-	
+
 		first= null;
 		last = first;
 		load();
@@ -567,11 +573,11 @@ public class Enterprice {
 		}
 
 		return str;
-	
+
 	}
 	public String deleteSeller(int cedula) throws SellerNoFoundException {
 		Collections.sort(sellers, new SellerIdSort());
-		
+
 		Seller sel = null;
 		String str = "";
 		boolean found = false;
@@ -598,7 +604,7 @@ public class Enterprice {
 			str = "No hay ningun asesor de venta con la cedula: " + cedula + "\n";
 			throw new SellerNoFoundException(cedula);
 		}
-		
+
 		return str;
 	}
 	public AdditionalServices getFirst() {
@@ -613,7 +619,7 @@ public class Enterprice {
 	public void setLast(AdditionalServices last) {
 		this.last = last;
 	}
-	
+
 	public void addAdditionalServices(AdditionalServices newService) {
 		if(first==null) {
 			first = newService;
@@ -628,108 +634,288 @@ public class Enterprice {
 	public String infoServices() {
 		String info = "";
 		while(last.getNext()==null) {
-			
+
 		}
 		return info;
 	}
-	 public void toExportVehiclesCSV(int opt, String nameFile) throws IOException {
-	    	File output = new File("data/"+nameFile+".csv");
-	    	FileWriter fw = new FileWriter(output);
-	    	BufferedWriter bw = new BufferedWriter(fw);
-	    	String message  = "";	
-	    	switch(opt) {
-	    	case 1:				
-	    		message = "Carro  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
-	    		+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de carro" + CSVS + 
-	    		"Polarizado" + CSVS + "Numero de puertas" + CSVS + "Tipo de gasolina "
-	    		+ CSVS + "Capacidad del tanque" + CSVS + "Consumo De Gasolina por kilometro\n";    
-	    		int x = 1;
-	    		for (int i = 0; i < vehicles.size(); i++) {
-	    			if (vehicles.get(i) != null) {
-	    				if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof GasolineCar) {
-	    					GasolineCar g = (GasolineCar) vehicles.get(i);
-	    					message += "" +x+";"+ g.infoCSV()+ g.getType() + CSVS + g.getPolarizado() +CSVS + g.getNumberOfDoors() + CSVS + g.getGasolineType() + CSVS +
-	    							g.getGasolineCapacity() + CSVS + g.getGasolineConsume() + "\n";
-	    					x++;
-	    				}
-	     					
-	    			}
-	    		}message += "\nNo hay más carros a gasolina \n\n";
-	    		break;
-	    	case 2:
-	    		message = "Carro  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
-	    	    		+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de carro" + CSVS + 
-	    	    		"Polarizado" + CSVS + "Numero de puertas" + CSVS + "Tipo de carga "
-	    	    		+ CSVS + "Capacidad de la bateria" + CSVS + "Consumo De bateria por kilometro\n"; 
-	    		int y = 1;
-	    		for (int i = 0; i < vehicles.size(); i++) {
-	    			if (vehicles.get(i) != null) {
-	    				if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof ElectricCar ) {
-	    					ElectricCar elec = (ElectricCar) vehicles.get(i);
-	    					message += "" +y+";"+ elec.infoCSV()+ elec.getType() + CSVS + elec.getPolarizado() +CSVS + elec.getNumberOfDoors() + CSVS + elec.getChargerType() + CSVS +
-	    							elec.getBatteryLife() + CSVS + elec.getBatteryConsume() + "\n";
-	    					y++;
-	    				}
-	    			}
-	    		}message += "\nNo hay más carros electricos registrados en el sistema.\n\n";
-	    		break;
-	    	case 3:
-	    		message = "Carro  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
-	    		+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de carro" + CSVS + 
-	    		"Polarizado" + CSVS + "Numero de puertas" + CSVS + "Tipo de carga "
-	    		+ CSVS + "Capacidad de la bateria" + CSVS + "Consumo De bateria por kilometro" + CSVS + "Tipo de gasolina " 
-	    				    		+ CSVS + "Capacidad del tanque" + CSVS + "Consumo De Gasolina por kilometro\n";
-				int z = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof HibritCar ) {
-							HibritCar hyb = (HibritCar) vehicles.get(i);
-							message += "" +z+";"+ hyb.infoCSV()+ hyb.getType() + CSVS + hyb.getPolarizado() +CSVS + hyb.getNumberOfDoors() + CSVS + hyb.getChargerType() + CSVS +
-									hyb.getBatteryLife() + CSVS + hyb.getBatteryConsume() + CSVS + hyb.getGasolineType() + CSVS + hyb.getGasolineCapacity() + 
-									CSVS + hyb.getGasolineConsume() +"\n";
-							z++;
-						} 
+	public void toExportVehiclesCSV(int opt, String nameFile) throws IOException {
+		File output = new File("data/"+nameFile+".csv");
+		FileWriter fw = new FileWriter(output);
+		BufferedWriter bw = new BufferedWriter(fw);
+		String message  = "";	
+		switch(opt) {
+		case 1:				
+			message = "Carro  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
+			+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de carro" + CSVS + 
+			"Polarizado" + CSVS + "Numero de puertas" + CSVS + "Tipo de gasolina "
+			+ CSVS + "Capacidad del tanque" + CSVS + "Consumo De Gasolina por kilometro\n";    
+			int x = 1;
+			for (int i = 0; i < vehicles.size(); i++) {
+				if (vehicles.get(i) != null) {
+					if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof GasolineCar) {
+						GasolineCar g = (GasolineCar) vehicles.get(i);
+						message += "" +x+";"+ g.infoCSV()+ g.getType() + CSVS + g.getPolarizado() +CSVS + g.getNumberOfDoors() + CSVS + g.getGasolineType() + CSVS +
+								g.getGasolineCapacity() + CSVS + g.getGasolineConsume() + "\n";
+						x++;
 					}
-				}message += "\nNo hay más carros hibridos registrados en el sistema.\n\n";
 
-				break;
-			case 4:
-				message +="Moto  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
-			    		+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de moto" +
-						CSVS + "Capacidad de gasolina" + CSVS + "Consumo de gaolina por kilometro\n";
-				int w = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof Motocycle ) {
-							Motocycle moto = (Motocycle) vehicles.get(i);
-							message += "" + w + ";" + moto.infoCSV() + moto.getTypeM() + CSVS + moto.getGasolineCapacity() + CSVS + moto.getGasolineConsume() +"\n"; 
-							w++;
-						} 
-							
+				}
+			}message += "\nNo hay más carros a gasolina \n\n";
+			break;
+		case 2:
+			message = "Carro  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
+			+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de carro" + CSVS + 
+			"Polarizado" + CSVS + "Numero de puertas" + CSVS + "Tipo de carga "
+			+ CSVS + "Capacidad de la bateria" + CSVS + "Consumo De bateria por kilometro\n"; 
+			int y = 1;
+			for (int i = 0; i < vehicles.size(); i++) {
+				if (vehicles.get(i) != null) {
+					if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof ElectricCar ) {
+						ElectricCar elec = (ElectricCar) vehicles.get(i);
+						message += "" +y+";"+ elec.infoCSV()+ elec.getType() + CSVS + elec.getPolarizado() +CSVS + elec.getNumberOfDoors() + CSVS + elec.getChargerType() + CSVS +
+								elec.getBatteryLife() + CSVS + elec.getBatteryConsume() + "\n";
+						y++;
 					}
-				}message += "\nNo hay mas motos registradas en el sistema.\n\n";
-				break;
-			}
-	    	bw.write(message);
-			bw.close();
-	    	fw.close(); 
+				}
+			}message += "\nNo hay más carros electricos registrados en el sistema.\n\n";
+			break;
+		case 3:
+			message = "Carro  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
+			+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de carro" + CSVS + 
+			"Polarizado" + CSVS + "Numero de puertas" + CSVS + "Tipo de carga "
+			+ CSVS + "Capacidad de la bateria" + CSVS + "Consumo De bateria por kilometro" + CSVS + "Tipo de gasolina " 
+			+ CSVS + "Capacidad del tanque" + CSVS + "Consumo De Gasolina por kilometro\n";
+			int z = 1;
+			for (int i = 0; i < vehicles.size(); i++) {
+				if (vehicles.get(i) != null) {
+					if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof HibritCar ) {
+						HibritCar hyb = (HibritCar) vehicles.get(i);
+						message += "" +z+";"+ hyb.infoCSV()+ hyb.getType() + CSVS + hyb.getPolarizado() +CSVS + hyb.getNumberOfDoors() + CSVS + hyb.getChargerType() + CSVS +
+								hyb.getBatteryLife() + CSVS + hyb.getBatteryConsume() + CSVS + hyb.getGasolineType() + CSVS + hyb.getGasolineCapacity() + 
+								CSVS + hyb.getGasolineConsume() +"\n";
+						z++;
+					} 
+				}
+			}message += "\nNo hay más carros hibridos registrados en el sistema.\n\n";
+
+			break;
+		case 4:
+			message +="Moto  " + CSVS + "Marca" + CSVS + "Modelo" + CSVS + "Cilindraje" + CSVS + "Kilometraje" + CSVS + "Placa" + CSVS
+			+ "Usado" + CSVS + "Precio base" + CSVS + "Tipo de moto" +
+			CSVS + "Capacidad de gasolina" + CSVS + "Consumo de gaolina por kilometro\n";
+			int w = 1;
+			for (int i = 0; i < vehicles.size(); i++) {
+				if (vehicles.get(i) != null) {
+					if (!vehicles.get(i).getSoldStatus() && vehicles.get(i) instanceof Motocycle ) {
+						Motocycle moto = (Motocycle) vehicles.get(i);
+						message += "" + w + ";" + moto.infoCSV() + moto.getTypeM() + CSVS + moto.getGasolineCapacity() + CSVS + moto.getGasolineConsume() +"\n"; 
+						w++;
+					} 
+
+				}
+			}message += "\nNo hay mas motos registradas en el sistema.\n\n";
+			break;
 		}
-	 public void exportSellers(String nameFile) throws IOException {
-	    	File outseller = new File("data/"+nameFile+".csv");
-	    	FileWriter fw = new FileWriter(outseller);
-	    	BufferedWriter bw = new BufferedWriter(fw);
-	    	String message  = "vendedor " + CSVS + "Nombre" + CSVS + "Apellido" + CSVS + "Cedula" + 
-	    	CSVS + "Cantidad de ventas\n";	
-	    	int x = 1;
-	    	for (int i  = 0; i < sellers.size(); i++) {
-	    		Seller sel = sellers.get(i);
-	    		message +=  "" + x + ";" + sel.infoCSV() + "\n";
-	    		x++;
-	    		
-	    	}
-	    	bw.write(message);
-			bw.close();
-	    	fw.close();  
-	 }
+		bw.write(message);
+		bw.close();
+		fw.close(); 
+	}
+	public void exportSellers(String nameFile) throws IOException {
+		File outseller = new File("data/"+nameFile+".csv");
+		FileWriter fw = new FileWriter(outseller);
+		BufferedWriter bw = new BufferedWriter(fw);
+		String message  = "vendedor " + CSVS + "Nombre" + CSVS + "Apellido" + CSVS + "Cedula" + 
+				CSVS + "Cantidad de ventas\n";	
+		int x = 1;
+		for (int i  = 0; i < sellers.size(); i++) {
+			Seller sel = sellers.get(i);
+			message +=  "" + x + ";" + sel.infoCSV() + "\n";
+			x++;
+
+		}
+		bw.write(message);
+		bw.close();
+		fw.close();  
+	}
+
+	public void importSelleres(String namefile) throws IOException {
+		File input = new File ("data/" +namefile +".txt");
+		FileReader fr = new FileReader (input);
+		BufferedReader br = new BufferedReader(fr);
+		String linea;
+		int contador = 0;
+		while ((linea = br.readLine()) != null) {
+			if (contador != 0) {
+				String[] datosLinea = linea.split(";");
+				String name = datosLinea[0];
+				String lastname = datosLinea[1];
+				String strcedula = datosLinea[2];
+				int cedula = Integer.parseInt(strcedula);
+				Seller newSeller = new Seller(name, lastname, cedula, 0);
+				addSeller(newSeller);
+			}
+			contador++;
+		}				
+
+	}
+	public void importVehicles(String namefile, int opt) throws NumberFormatException, IOException {
+		File input = new File ("data/" +namefile +".txt");
+		FileReader fr = new FileReader (input);
+		BufferedReader br = new BufferedReader(fr);
+		String linea;
+		boolean used;
+		boolean polarizado;
+		switch(opt) {
+		case 1:
+			int contador = 0;
+			while ((linea = br.readLine()) != null) {
+				if (contador != 0) {
+					String[] datosLinea = linea.split(";");
+					String base = datosLinea[0];
+					int BasePrice = Integer.parseInt(base);
+					String mark = datosLinea[1];
+					String stmodel = datosLinea[2];
+					int model = Integer.parseInt(stmodel);
+					String stcil = datosLinea[3];
+					int cilindraje = Integer.parseInt(stcil);
+					String stmil = datosLinea[4];
+					int mileaje = Integer.parseInt(stmil);
+					String us = datosLinea[5];
+					if(us.equalsIgnoreCase("true"))
+						used = true;
+					else 
+						used = false;
+					String placa = datosLinea[6];
+					String type = datosLinea[7];
+					String stnum = datosLinea[8];
+					int numberOfDoors = Integer.parseInt(stnum);
+					String pola = datosLinea[9];
+					if(pola.equalsIgnoreCase("true"))
+						polarizado = true;
+					else 
+						polarizado = false;
+					String gasolineType = datosLinea[10];
+					String stcapa = datosLinea[4];
+					int gasolineCapacity = Integer.parseInt(stcapa);
+					GasolineCar newGc = new GasolineCar(0, BasePrice, mark, model, cilindraje, mileaje, used, placa, type, numberOfDoors, polarizado, gasolineType, gasolineCapacity);
+					addVehicle(newGc);
+				}
+				contador++;
+			}				
+
+			break;
+		case 2:
+			int contador1 = 0;
+			while ((linea = br.readLine()) != null) {
+				if (contador1 != 0) {
+					String[] datosLinea = linea.split(";");
+					String base = datosLinea[0];
+					int BasePrice = Integer.parseInt(base);
+					String mark = datosLinea[1];
+					String stmodel = datosLinea[2];
+					int model = Integer.parseInt(stmodel);
+					String stcil = datosLinea[3];
+					int cilindraje = Integer.parseInt(stcil);
+					String stmil = datosLinea[4];
+					int mileaje = Integer.parseInt(stmil);
+					String us = datosLinea[5];
+					if(us.equalsIgnoreCase("true"))
+						used = true;
+					else 
+						used = false;
+					String placa = datosLinea[6];
+					String type = datosLinea[7];
+					String stnum = datosLinea[8];
+					int numberOfDoors = Integer.parseInt(stnum);
+					String pola = datosLinea[9];
+					if(pola.equalsIgnoreCase("true"))
+						polarizado = true;
+					else 
+						polarizado = false;
+					String ChargerType = datosLinea[10];
+					String stcapa = datosLinea[4];
+					int batteryLife = Integer.parseInt(stcapa);
+					ElectricCar nelec = new ElectricCar(0, BasePrice, mark, model, cilindraje, mileaje, used, placa, type, numberOfDoors, polarizado, ChargerType, batteryLife);
+					addVehicle(nelec);
+				}
+				contador1++;
+			}	
+			break;
+		case 3:
+			int contador2 = 0;
+			while ((linea = br.readLine()) != null) {
+				if (contador2 != 0) {
+					String[] datosLinea = linea.split(";");
+					String base = datosLinea[0];
+					int BasePrice = Integer.parseInt(base);
+					String mark = datosLinea[1];
+					String stmodel = datosLinea[2];
+					int model = Integer.parseInt(stmodel);
+					String stcil = datosLinea[3];
+					int cilindraje = Integer.parseInt(stcil);
+					String stmil = datosLinea[4];
+					int mileaje = Integer.parseInt(stmil);
+					String us = datosLinea[5];
+					if(us.equalsIgnoreCase("true"))
+						used = true;
+					else 
+						used = false;
+					String placa = datosLinea[6];
+					String type = datosLinea[7];
+					String stnum = datosLinea[8];
+					int numberOfDoors = Integer.parseInt(stnum);
+					String pola = datosLinea[9];
+					if(pola.equalsIgnoreCase("true"))
+						polarizado = true;
+					else 
+						polarizado = false;
+					String ChargerType = datosLinea[10];
+					String stcapa = datosLinea[11];
+					int batteryLife = Integer.parseInt(stcapa);
+					String gasolineType = datosLinea[12];
+					String stgaso = datosLinea[13];
+					int gasolineCapacity = Integer.parseInt(stgaso);
+					HibritCar nhib = new HibritCar(0, BasePrice, mark, model, cilindraje, mileaje, used, placa, type, numberOfDoors,
+							polarizado, ChargerType, batteryLife, gasolineType, gasolineCapacity);
+					addVehicle(nhib);
+				}
+				contador2++;
+			}
+			break;
+		case 4:
+			int contador3 = 0;
+			while ((linea = br.readLine()) != null) {
+				if (contador3 != 0) {
+					String[] datosLinea = linea.split(";");
+					String base = datosLinea[0];
+					int BasePrice = Integer.parseInt(base);
+					String mark = datosLinea[1];
+					String stmodel = datosLinea[2];
+					int model = Integer.parseInt(stmodel);
+					String stcil = datosLinea[3];
+					int cilindraje = Integer.parseInt(stcil);
+					String stmil = datosLinea[4];
+					int mileaje = Integer.parseInt(stmil);
+					String us = datosLinea[5];
+					if(us.equalsIgnoreCase("false"))
+						used = true;
+					else 
+						used = false;
+					String placa = datosLinea[6];
+					String typeM = datosLinea[7];
+					String stgasoline = datosLinea[8];
+					int gasolineCapacity = Integer.parseInt(stgasoline);
+					
+				Motocycle nmoto = new Motocycle(0, BasePrice, mark, model, cilindraje, mileaje, used, placa, typeM, gasolineCapacity);
+				addVehicle(nmoto);
+				}
+				contador3++;
+				
+				
+			}
+			break;
+
+		}
+		}
 }
 
