@@ -4,7 +4,7 @@ public class Client {
 	private String name;
 	private String lastName;
 	private int cedula;
-	private int phone;
+	private String phone;
 	private String email;
 	private Client left;
 	private Client right;
@@ -21,7 +21,7 @@ public class Client {
 	 * @param email the selection variable of the email. email !=null.
 	 * @param seller the selection variable of the seller. seller!=null.
 	 */
-	public Client (String name, String lastName, int cedula, int phone, String email) {
+	public Client (String name, String lastName, int cedula, String phone, String email) {
 		this.name = name;
 		this.lastName = lastName;
 		this.cedula = cedula;
@@ -92,7 +92,7 @@ public class Client {
 	 * <b>post: </b>get the object selected.
 	 * @return phone. 
 	 */	
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 	 /** 
@@ -101,7 +101,7 @@ public class Client {
 	 * <b>post: </b>transform the parameter to a variable of this class. 
 	 * @param phone the selection variable of the phone. phone != null. 
 	 */
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	 /** 

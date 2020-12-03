@@ -129,7 +129,7 @@ public class Menu {
 		System.out.println("12) SALIR");//
 	}
 	public void menuRamas() {
-		System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+		System.out.println("\n:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
 		System.out.println("                        Vehicle Agency                               ");
 		System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
 		System.out.println("");
@@ -423,7 +423,8 @@ public class Menu {
 					totalProfitEnterprice();
 					break;
 				case 2:
-					//vehiculosVnedidos();
+					System.out.println(enterprice.showSoldVehicles());
+					
 					break;
 				case 3:
 					break;
@@ -560,7 +561,7 @@ public class Menu {
 		System.out.println("digita la cedula del cliente");
 		int cedula = Integer.parseInt(sc.nextLine());
 		System.out.println("Digita el telefono del cliente");
-		int phone =  Integer.parseInt(sc.nextLine());
+		String phone = sc.nextLine();
 		System.out.println("Digita el correo electronico del cliente");
 		String email = sc.nextLine();
 		System.out.println("Digita el numero que corresponde al asesor de venta\n");
@@ -868,6 +869,7 @@ public class Menu {
 			infoSale += "Valor Total Venta: " + myFormatter.format(lVehicle.getSalesPrice());
 			System.out.println(infoSale);
 			enterprice.getVehicles().remove(lVehicle);
+			enterprice.addSoldVehicle(lVehicle);
 			enterprice.saveVehicles();
 			}
 			/**

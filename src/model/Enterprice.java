@@ -15,6 +15,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+
+import exception.MaximunAssignedClientsException;
 import exception.SellerNoFoundException;
 import exception.VehicleNoFoundException;
 
@@ -31,6 +33,7 @@ public class Enterprice {
 	private Car[][] parkingSpace;
 	private ArrayList<Vehicle> vehicles;
 	private ArrayList<Seller> sellers;
+	private Vehicle root;
 
 
 	/** 
@@ -56,6 +59,7 @@ public class Enterprice {
 		first= null;
 		last = first;
 		load();
+		root = null;
 	}
 	public Car[][] getParkingSpace() {
 		return parkingSpace;
@@ -913,5 +917,55 @@ public class Enterprice {
 		}else
 			throw new FileNotFoundException("No se encontró el archivo, intenta de nuevo");
 		}
+	public Vehicle getRoot() {
+		return root;
+	}
+	public void setRoot(Vehicle root) {
+		this.root = root;
+	}
+	public void addSoldVehicle(Vehicle vehicle)  {
+		if (root == null)
+			root = vehicle;
+		else 
+			addSoldVehicle(root, vehicle);
+
+	}
+
+	public void addSoldVehicle(Vehicle root, Vehicle vehicle) {
+			if(vehicle.getSalesPrice()<= root.getSalesPrice() && root.getLeft() ==null) {
+				root.setLeft(vehicle);
+				vehicle.setParent(root);
+				
+			}else if (vehicle.getSalesPrice()>root.getSalesPrice() && root.getRight()==null) {
+				root.setRight(vehicle);
+				vehicle.setParent(root);	
+			}else {
+				if(vehicle.getSalesPrice() <= root.getSalesPrice() && root.getLeft() != null) {
+					addSoldVehicle(root.getLeft(),vehicle);
+				}else {
+					addSoldVehicle(root.getRight(),vehicle);
+				}
+			}
+		}
+	public String showSoldVehicles() {
+		return showSoldVehicles(root);
+	}
+	/**
+	 * generates a string with the data name and score of the players<br>
+	 * <b> pre: </b> The scores must exist and the binary search tree cannot be empty.
+	 * <b> post: </b> string with sorted data from binary search tree
+	 * @param recur current score. recur != null.
+	 * @return String score
+	 */
+	public String showSoldVehicles(Vehicle recur) {
+		String SoldVehicles= "";
+		if(recur != null) {
+			SoldVehicles += showSoldVehicles(recur.getLeft());
+			SoldVehicles += "____________________________\n" + recur.basicInfo() + "\n";
+			SoldVehicles += showSoldVehicles(recur.getRight());
+		}
+		return SoldVehicles;
+	}
+
 }
 

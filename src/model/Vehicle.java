@@ -24,6 +24,9 @@ public abstract class Vehicle implements Serializable{
       private boolean soldStatus;
       private static DecimalFormat myFormatter;
       public final static String CSVS = ";";
+      private Vehicle left;
+      private Vehicle right;
+      private Vehicle parent;
       
 
  	 /** 
@@ -387,6 +390,24 @@ public abstract class Vehicle implements Serializable{
 	 */
 	public void setSoldStatus(boolean soldStatus) {
 		this.soldStatus = soldStatus;
+	}
+	public Vehicle getLeft() {
+		return left;
+	}
+	public void setLeft(Vehicle left) {
+		this.left = left;
+	}
+	public Vehicle getRight() {
+		return right;
+	}
+	public void setRight(Vehicle right) {
+		this.right = right;
+	}
+	public Vehicle getParent() {
+		return parent;
+	}
+	public void setParent(Vehicle parent) {
+		this.parent = parent;
 	}
     
 
