@@ -1,12 +1,11 @@
 vendedor ;Nombre;Apellido;Cedula;Cantidad de ventas
 1;Camilo;Perdomo;133427583;0.0;
-1;juan;Patiño;123456865;0.0;
-1;David;Garcia;987543265;0.0;
-1;Laura;Uribe;8765432;0.0;
-1;Juan;Rodriguez;876543;0.0;
-1;Sebastian;Garcia;0;0.0;
-1;Andres;Rogelis;65435;0.0;
-1;Isabella;Martinez;2342121;0.0;
-1;Claudia;Medina;45611178;0.0;
-1;Felipe;Eraso;656565;0.0;
-1;pepito;perez;98;0.0;
+2;juan;Patiño;123456865;0.0;
+3;David;Garcia;987543265;0.0;
+4;Laura;Uribe;8765432;1.0;
+5;Juan;Rodriguez;876543;0.0;
+6;Sebastian;Garcia;0;0.0;
+7;Andres;Rogelis;65435;0.0;
+8;Isabella;Martinez;2342121;0.0;
+9;Claudia;Medina;45611178;0.0;
+10;Felipe;Eraso;656565;0.0;

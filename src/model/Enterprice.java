@@ -97,7 +97,7 @@ public class Enterprice {
 	}
 	public void addService(AdditionalServices service) throws IOException {
 		services.add(service);
-		saveServices();
+		
 }
 
 	public void setServices(ArrayList<AdditionalServices> services) {
@@ -420,18 +420,7 @@ public class Enterprice {
 		out.writeObject(sellers);
 		out.close();
 	}
-	/**
-	 * Save AdditionalServices in a file path <br> 
-	 * <b>pre: </b>list of AdditionalServices exist <br> 
-	 * <b>post: </b>a file path whit information. 
-	 * @throws IOException
-	 */
-	public void saveServices() throws IOException {
-		FileOutputStream fos = new FileOutputStream("data/Saved_Services.va");
-		ObjectOutputStream out = new ObjectOutputStream(fos);
-		out.writeObject(services);
-		out.close();
-	}
+
 	/**
 	 * load every information that exist in the file paths <br> 
 	 * <b>pre: </b>Files whit informations<br> 
@@ -455,13 +444,7 @@ public class Enterprice {
 			sellers =  (ArrayList<Seller>) input.readObject();
 			input.close();
 		}
-		File serveload = new File("data/Saved_Services.va");
-		if(serveload.exists()) {
-			FileInputStream fis = new FileInputStream(sload);
-			ObjectInputStream input = new ObjectInputStream(fis);
-			services =  (ArrayList<AdditionalServices>) input.readObject();
-			input.close();
-		}
+
 	}
 /**
 * bubbleSortSellers sort arraylist of sellers and return his info <br> 
@@ -558,10 +541,13 @@ public class Enterprice {
 					services.set(last, temp);
 				}
 			}
+		   if(!services.isEmpty()) {
 		   for(AdditionalServices e : services ) {
 				info +=   (con) +") " + e.infoService()+ "\n==========================================================\n";
 				con++;
 			}
+		   }else 
+			   info = "No ha ingresado ningun servicio adicional";
 			return info;
 		}
 /**
@@ -744,7 +730,7 @@ public class Enterprice {
  */
 	public void addAdditionalServices(AdditionalServices newService) throws IOException {
 		services.add(newService);
-		saveServices();
+	
 	}
 /**
  * Export list of vehicles for diferent type in a csv file <br> 
