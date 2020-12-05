@@ -11,9 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.util.*;
 
 import exception.MaximunAssignedClientsException;
@@ -33,6 +31,7 @@ public class Enterprice {
 	private Car[][] parkingSpace;
 	private ArrayList<Vehicle> vehicles;
 	private ArrayList<Seller> sellers;
+	private ArrayList<AdditionalServices> services;
 	private Vehicle root;
 
 
@@ -54,11 +53,12 @@ public class Enterprice {
 		this.salesNumber = salesNumber;
 		vehicles = new ArrayList<Vehicle>();
 		sellers = new ArrayList<Seller>();
+		services = new ArrayList<AdditionalServices>();
 		parkingSpace = new Car [COLS][ROWS];
-
+		
 		first= null;
 		last = first;
-		load();
+		
 		root = null;
 	}
 	public Car[][] getParkingSpace() {
@@ -95,6 +95,15 @@ public class Enterprice {
 		vehicles.add(vehicle);
 		saveVehicles();
 	}
+	public void addService(AdditionalServices service) throws IOException {
+		services.add(service);
+		saveServices();
+}
+
+	public void setServices(ArrayList<AdditionalServices> services) {
+		this.services = services;
+	}
+	
 	/** 
 	 * get the object that you selected<br> 
 	 * <b>pre: </b>the variable to return must be entered <br> 
@@ -136,7 +145,9 @@ public class Enterprice {
 	public ArrayList<Seller> getSellers(){ 
 		return sellers;
 	}
-
+	public ArrayList<AdditionalServices>getServices(){
+		return services;
+	}
 
 
 	/** 
@@ -384,6 +395,12 @@ public class Enterprice {
 		return info;	
 
 	}
+	/**
+	 * Save vehicles in a file path <br> 
+	 * <b>pre: </b>list of vehicles exist <br> 
+	 * <b>post: </b>a file path whit information. 
+	 * @throws IOException
+	 */
 	public void saveVehicles() throws IOException {
 		FileOutputStream fos = new FileOutputStream("data/Saved_Vehicles.va");
 		ObjectOutputStream out = new ObjectOutputStream(fos);
@@ -391,13 +408,37 @@ public class Enterprice {
 		out.close();
 	}
 
-
+	/**
+	 * Save sellers in a file path <br> 
+	 * <b>pre: </b>list of sellers exist <br> 
+	 * <b>post: </b>a file path whit information. 
+	 * @throws IOException
+	 */
 	public void saveSellers() throws IOException {
 		FileOutputStream fos = new FileOutputStream("data/Saved_Sellers.va");
 		ObjectOutputStream out = new ObjectOutputStream(fos);
 		out.writeObject(sellers);
 		out.close();
 	}
+	/**
+	 * Save AdditionalServices in a file path <br> 
+	 * <b>pre: </b>list of AdditionalServices exist <br> 
+	 * <b>post: </b>a file path whit information. 
+	 * @throws IOException
+	 */
+	public void saveServices() throws IOException {
+		FileOutputStream fos = new FileOutputStream("data/Saved_Services.va");
+		ObjectOutputStream out = new ObjectOutputStream(fos);
+		out.writeObject(services);
+		out.close();
+	}
+	/**
+	 * load every information that exist in the file paths <br> 
+	 * <b>pre: </b>Files whit informations<br> 
+	 * <b>post: </b>load objects whit information to file. 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
 	public void load() throws ClassNotFoundException, IOException {
 		File vload = new File("data/Saved_Vehicles.va");
@@ -414,7 +455,20 @@ public class Enterprice {
 			sellers =  (ArrayList<Seller>) input.readObject();
 			input.close();
 		}
+		File serveload = new File("data/Saved_Services.va");
+		if(serveload.exists()) {
+			FileInputStream fis = new FileInputStream(sload);
+			ObjectInputStream input = new ObjectInputStream(fis);
+			services =  (ArrayList<AdditionalServices>) input.readObject();
+			input.close();
+		}
 	}
+/**
+* bubbleSortSellers sort arraylist of sellers and return his info <br> 
+* <b>pre: </b>list of sellers <br> 
+* <b>post: </b>String whit information of his sellers
+ * @return string info sellers sorting.
+ */
 	public String bubbleSortSellers() {
 		String info = "";
 		if (this.getSellers() != null) {
@@ -449,6 +503,12 @@ public class Enterprice {
 		}
 		return info;
 	}
+	/**
+	* insercionSortVehicles sort arraylist of vehicles and return his info <br> 
+	* <b>pre: </b>list of vehicles <br> 
+	* <b>post: </b>String whit information of his vehicles
+	 * @return string info sellers sorting.
+	 */
 	public String insercionSortVehicles() {
 		String info = "";
 		int con = 1;
@@ -472,6 +532,46 @@ public class Enterprice {
 		}
 		return info;
 	}
+	/**
+	* selectionSortServices sort arraylist of services and return his info <br> 
+	* <b>pre: </b>list of services <br> 
+	* <b>post: </b>String whit information of his services
+	 * @return string info services sorting.
+	 */
+	   public String selectionSortServices() {
+		   String info = "";
+		   int con = 1;
+		   for (int i = 0; i < services.size() - 1; i++) {
+			   int last = i;
+				for (int j = i + 1; j < services.size(); j++) {
+					int condicion = services.get(j).getPrice() - services.get(last).getPrice();
+					if (condicion == 0) {
+						condicion = services.get(j).getId() - services.get(last).getId();
+						if (condicion > 0)
+							last = j;
+					} else if (condicion > 0)
+						last = j;
+				}
+				if (last != i) {
+					AdditionalServices temp = services.get(i);
+					services.set(i, services.get(last));
+					services.set(last, temp);
+				}
+			}
+		   for(AdditionalServices e : services ) {
+				info +=   (con) +") " + e.infoService()+ "\n==========================================================\n";
+				con++;
+			}
+			return info;
+		}
+/**
+* searchSeller binary search in the arraylist to sellers <br> 
+* <b>pre: </b>Sort list sellers <br> 
+* <b>post: </b>Info of his sellers
+ * @param cedula != null.
+ * @return String whit info of his seller.
+ * @throws SellerNoFoundException
+ */
 	public String searchSeller(int cedula) throws SellerNoFoundException {
 		Collections.sort(sellers, new SellerIdSort());
 		long startTime = System.currentTimeMillis();
@@ -503,6 +603,14 @@ public class Enterprice {
 		str += "Duracion de la busqueda: " + (endTime - startTime)+ " ms";
 		return str;
 	}
+	/**
+	* searchVehicle binary search in the arraylist to vehicles <br> 
+	* <b>pre: </b>Sort list vehicles <br> 
+	* <b>post: </b>Info of his vehicles
+	 * @param placa != null.
+	 * @return String whit info of his vehicle.
+	 * @throws VehicleNoFoundException
+	 */
 	public String searchVehicle(String placa) throws VehicleNoFoundException {
 		Collections.sort(vehicles, new VehiclePlateSort());
 		long startTime = System.currentTimeMillis();
@@ -534,6 +642,15 @@ public class Enterprice {
 		str += "\nDuracion de la busqueda: " + (endTime - startTime) + " ms";
 		return str;
 	}
+
+	/**
+	* deleteVehicle binary search in the arraylist to vehicles <br> 
+	* <b>pre: </b>Sort list vehicles <br> 
+	* <b>post: </b>Info of deleter vehicle
+	 * @param placa != null.
+	 * @return String whit info of his vehicle.
+	 * @throws VehicleNoFoundException
+	 */
 	public String deleteVehicle(String placa) throws VehicleNoFoundException {
 		Collections.sort(vehicles, new VehiclePlateSort());
 		Vehicle veh = null;
@@ -566,6 +683,14 @@ public class Enterprice {
 		return str;
 
 	}
+	/**
+	* deleteSeller binary search in the arraylist to sellers <br> 
+	* <b>pre: </b>Sort list sellers <br> 
+	* <b>post: </b>Info of deleter seller
+	 * @param cedula != null.
+	 * @return String whit info of his seller.
+	 * @throws SellerNoFoundException
+	 */
 	public String deleteSeller(int cedula) throws SellerNoFoundException {
 		Collections.sort(sellers, new SellerIdSort());
 
@@ -610,25 +735,25 @@ public class Enterprice {
 	public void setLast(AdditionalServices last) {
 		this.last = last;
 	}
-
-	public void addAdditionalServices(AdditionalServices newService) {
-		if(first==null) {
-			first = newService;
-			last = first;
-		}else {
-			AdditionalServices current = last;
-			newService.setPrev(last);
-			current.setNext(newService);
-			last = newService;			
-		}
+/**
+ * add a AdditionalServices a list of services <br> 
+ * <b>pre: </b>ew service <br> 
+ * <b>post: </b>new object in the list
+ * @param newService != null
+ * @throws IOException
+ */
+	public void addAdditionalServices(AdditionalServices newService) throws IOException {
+		services.add(newService);
+		saveServices();
 	}
-	public String infoServices() {
-		String info = "";
-		while(last.getNext()==null) {
-
-		}
-		return info;
-	}
+/**
+ * Export list of vehicles for diferent type in a csv file <br> 
+ * <b>pre: </b>Type of vehicle and name to the new file <br> 
+ * <b>post: </b>csv file in the data folder
+ * @param opt. 1<=opt<=4.
+ * @param nameFile != ""
+ * @throws IOException
+ */
 	public void toExportVehiclesCSV(int opt, String nameFile) throws IOException {
 		File output = new File("data/"+nameFile+".csv");
 		FileWriter fw = new FileWriter(output);
@@ -711,6 +836,13 @@ public class Enterprice {
 		bw.close();
 		fw.close(); 
 	}
+/**
+ * Export list of sellers in a csv file <br> 
+ * <b>pre: </b>name to the new file <br> 
+ * <b>post: </b>csv file in the data folder
+ * @param nameFile != ""
+ * @throws IOException
+ */
 	public void exportSellers(String nameFile) throws IOException {
 		File outseller = new File("data/"+nameFile+".csv");
 		FileWriter fw = new FileWriter(outseller);
@@ -728,7 +860,14 @@ public class Enterprice {
 		bw.close();
 		fw.close();  
 	}
-
+/**
+ * import data of sellers in text file <br> 
+ * <b>pre: </b>name of the import text file  <br> 
+ * <b>post: </b>objects whit attributes to the text file
+ * @param namefile exist
+ * @throws IOException
+ * @throws FileNotFoundException
+ */
 	public void importSelleres(String namefile) throws IOException, FileNotFoundException{
 		
 		File input = new File ("data/" +namefile +".txt");
@@ -754,6 +893,16 @@ public class Enterprice {
 
 
 	}
+/**
+ * import data of vehicles in text file <br> 
+ * <b>pre: </b>type of vehicle to import data and name of the import text file  <br> 
+ * <b>post: </b>objects whit attributes to the text file
+ * @param namefile exist
+ * @param opt 1<=opt<=4
+ * @throws NumberFormatException 
+ * @throws IOException
+ * @throws FileNotFoundException
+ */
 	public void importVehicles(String namefile, int opt) throws NumberFormatException, IOException, FileNotFoundException{
 		
 		File input = new File ("data/" +namefile +".txt");
@@ -951,10 +1100,10 @@ public class Enterprice {
 		return showSoldVehicles(root);
 	}
 	/**
-	 * generates a string with the data name and score of the players<br>
-	 * <b> pre: </b> The scores must exist and the binary search tree cannot be empty.
+	 * generates a string with the data of sold vehicles<br>
+	 * <b> pre: </b>object vehicle create and sold.
 	 * <b> post: </b> string with sorted data from binary search tree
-	 * @param recur current score. recur != null.
+	 * @param recur current vehicle. recur != null.
 	 * @return String score
 	 */
 	public String showSoldVehicles(Vehicle recur) {
@@ -966,6 +1115,7 @@ public class Enterprice {
 		}
 		return SoldVehicles;
 	}
+
 
 }
 

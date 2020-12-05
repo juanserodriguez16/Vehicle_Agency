@@ -1,6 +1,12 @@
 package model;
 
-public class Client {
+import java.io.Serializable;
+
+public class Client implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String lastName;
 	private int cedula;

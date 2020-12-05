@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import model.ElectricCar;
 import model.Upholstery;
 
-public class AdditionalServices extends TestCase{
+public class AdditionalServicesTest extends TestCase{
 	private Upholstery uph;
 
 
@@ -34,4 +34,5 @@ public class AdditionalServices extends TestCase{
 		}
 		assertTrue(x);
 	}
+	
 }

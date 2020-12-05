@@ -1,7 +1,7 @@
 package model;
 
 public abstract class BasicProgress  implements ProgressGadget{
-	protected String template = "[                 ]";
+	protected String template = "[                                                                  ]";
 	
 	protected int current;
 	protected int maximum;
